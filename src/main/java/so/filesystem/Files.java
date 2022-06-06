@@ -4,6 +4,8 @@
  */
 package so.filesystem;
 
+import java.io.File;
+import java.io.FileWriter;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
@@ -11,7 +13,7 @@ import java.util.ArrayList;
  *
  * @author Aozhen
  */
-public class File {
+public class Files {
     private String name;
     private String content;
     private String extent;
@@ -21,7 +23,7 @@ public class File {
     
     
    
-    public File(String name, String content, String extent) {
+    public Files(String name, String content, String extent) {
         this.name = name;
         this.content = content;
         this.extent = extent;
@@ -76,6 +78,19 @@ public class File {
 
     public void setModification(LocalDateTime modification) {
         this.modification = modification;
+    }
+    
+    public void writeFile(String currentDir){
+        File newFile = new File(currentDir + "\\" + this.name + this.extent);
+        try {
+            newFile.createNewFile();
+            FileWriter writer = new FileWriter(newFile);
+            writer.write(this.content);
+            writer.close();
+            System.out.println("File " + this.name + this.extent + " has been created");
+        } catch (Exception e) {
+            System.out.println("File " + this.name + this.extent + " cannot be created");
+        }
     }
     
 }

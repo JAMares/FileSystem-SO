@@ -54,6 +54,13 @@ public class FileSystem {
         this.current = root;
     }
     
+    //Creates new file
+    public void createFile(String name, String extension, String content){
+        Files newFile = new Files(name,content,extension);
+        newFile.writeFile(this.current.getName());
+    }
+    
+    //Creates Virtual Disk
     public void createVD(Integer sectories, Integer sectorSize) throws IOException{
         this.sectories = sectories;
         this.sectorSize = sectorSize;
@@ -68,10 +75,33 @@ public class FileSystem {
         } catch (Exception e) {
         }
     }
+
+    //Creates new directory in actual directory
+    public void createDirectory(String name){
+        File directory = new File(this.current.getName() + "\\" + name);
+
+        if (directory.mkdir() == true) { 
+            //this.current = new Directory(this.current.getName() + "\\" + name);
+			System.out.println("Directory" + this.current.getName() + " has been created successfully."); 
+		} 
+		else { 
+			System.out.println("Directory cannot be created.\nIt already exists."); 
+		} 
+    }
+
+    //Changes actual directory
+    public void changeMainDir(Directory directory){
+        this.current = directory;
+    }
     
     public static void main(String args[]) throws IOException{
         FileSystem system = new FileSystem();
+        Directory directory= new Directory("C:\\Users\\valev\\Documents");
+        system.current = directory;
+        system.createDirectory("prueba");
+
         system.createVD(3, 4);
+        system.createFile("prueba",".txt","hi");
     }
     
 } 

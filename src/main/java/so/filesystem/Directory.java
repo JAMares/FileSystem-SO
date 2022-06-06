@@ -12,7 +12,7 @@ import java.util.ArrayList;
  */
 public class Directory {
     private String name;
-    private ArrayList<File> files;
+    private ArrayList<Files> files;
     private ArrayList<Directory> directories;
 
     public Directory(String name) {
@@ -29,11 +29,11 @@ public class Directory {
         this.name = name;
     }
 
-    public ArrayList<File> getFiles() {
+    public ArrayList<Files> getFiles() {
         return files;
     }
 
-    public void setFiles(ArrayList<File> files) {
+    public void setFiles(ArrayList<Files> files) {
         this.files = files;
     }
 
