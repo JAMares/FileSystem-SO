@@ -103,6 +103,11 @@ public class FileSystem {
     public ArrayList<Files> getFiles() {
         return this.current.getFiles();
     }
+
+    //Modifies file
+    public void modifyFile(String name, String newContent){
+        this.current.modifyFile(name,newContent);
+    }
     
     public static void main(String args[]) throws IOException{
         FileSystem system = new FileSystem();
@@ -114,6 +119,8 @@ public class FileSystem {
         system.createFile("prueba3",".txt","0");
         system.createFile("prueba4",".txt","1");
         system.createFile("prueba5",".txt","2");
+
+        system.modifyFile("prueba3","modified");
 
         system.current.getDirectories();
         system.current.getFiles();

@@ -69,6 +69,17 @@ public class Directory {
         return null;
     }
 
+    //Get File
+    public void modifyFile(String name, String content){
+        for (int i = 0; i < this.files.size(); i++){
+            if (this.files.get(i).getName() == name);
+            this.files.get(i).setContent(content);
+            System.out.println("File modified");
+            return;
+        }
+        System.out.println("File not found");
+    }
+
     //Get files
     public ArrayList<Files> getFiles() {
         this.viewFiles();
