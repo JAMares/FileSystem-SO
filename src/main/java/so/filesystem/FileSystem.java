@@ -55,12 +55,6 @@ public class FileSystem {
         this.current = root;
     }
     
-    //Creates new file
-    public void createFile(String name, String extension, String content){
-        Files newFile = new Files(name,content,extension);
-        newFile.writeFile(this.current.getName());
-    }
-    
     //Creates Virtual Disk
     public void createVD(Integer sectories, Integer sectorSize) throws IOException{
         this.sectories = sectories;
@@ -77,22 +71,27 @@ public class FileSystem {
         }
     }
 
-    //Creates new directory in actual directory
+    //Add new directories
     public void createDirectory(String name){
-        File directory = new File(this.current.getName() + "\\" + name);
+        Directory newDirec = new Directory(name);
+        current.addDirectory(newDirec);
+    }
 
-        if (directory.mkdir() == true) { 
-            //this.current = new Directory(this.current.getName() + "\\" + name);
-			System.out.println("Directory" + this.current.getName() + " has been created successfully."); 
-		} 
-		else { 
-			System.out.println("Directory cannot be created.\nIt already exists."); 
-		} 
+    //Add new files
+    public void createFile(String name, String extension, String content){
+        Files newFile = new Files(name,content,extension);
+        current.addFiles(newFile);
     }
 
     //Changes current directory
-    public void changeMainDir(Directory directory){
-        this.current = directory;
+    public void changeMainDir(String name){
+        Directory newCurrent = this.current.findDir(name);
+        if (newCurrent != null){
+            this.current = newCurrent;
+            System.out.println("Directory changed.\nThe new directory is: " + name);
+            return;
+        }
+        System.out.println("Directory cannot be changed.");
     }
 
     //Gets current directory files
@@ -107,12 +106,23 @@ public class FileSystem {
     
     public static void main(String args[]) throws IOException{
         FileSystem system = new FileSystem();
-        Directory directory= new Directory("C:\\Users\\valev\\Documents");
-        system.current = directory;
         system.createDirectory("prueba");
+        system.createDirectory("prueba1");
+        system.createDirectory("prueba2");
 
         system.createVD(3, 4);
-        system.createFile("prueba",".txt","hi");
+        system.createFile("prueba3",".txt","0");
+        system.createFile("prueba4",".txt","1");
+        system.createFile("prueba5",".txt","2");
+
+        system.current.getDirectories();
+        system.current.getFiles();
+
+        //Change dir
+        system.changeMainDir("prueba");
+
+        system.current.getDirectories();
+        system.current.getFiles();
     }
     
 } 
