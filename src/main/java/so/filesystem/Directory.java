@@ -29,22 +29,21 @@ public class Directory {
         this.name = name;
     }
 
-    public ArrayList<Files> getFiles() {
-        return files;
-    }
-
     public void setFiles(ArrayList<Files> files) {
         this.files = files;
-    }
-
-    public ArrayList<Directory> getDirectories() {
-        return directories;
     }
 
     public void setDirectories(ArrayList<Directory> directories) {
         this.directories = directories;
     }
+
+    //Get files
+    public ArrayList<Files> getFiles() {
+        return this.files;
+    }
     
-    
-    
+    //Get directories
+    public ArrayList<Directory> getDirectories() {
+        return this.directories;
+    }
 }

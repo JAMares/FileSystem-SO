@@ -6,6 +6,7 @@ package so.filesystem;
 import java.io.File;  // Import the File class
 import java.io.FileWriter;
 import java.io.IOException;  // Import the IOException class to handle errors
+import java.util.ArrayList;
 
 /**
  *
@@ -89,9 +90,19 @@ public class FileSystem {
 		} 
     }
 
-    //Changes actual directory
+    //Changes current directory
     public void changeMainDir(Directory directory){
         this.current = directory;
+    }
+
+    //Gets current directory files
+    public ArrayList<Directory> getDirectories() {
+        return this.current.getDirectories();
+    }
+
+    //Gets current directory directories
+    public ArrayList<Files> getFiles() {
+        return this.current.getFiles();
     }
     
     public static void main(String args[]) throws IOException{

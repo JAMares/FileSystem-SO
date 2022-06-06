@@ -8,6 +8,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 /**
  *
@@ -80,6 +81,7 @@ public class Files {
         this.modification = modification;
     }
     
+    //Write and create new file
     public void writeFile(String currentDir){
         File newFile = new File(currentDir + "\\" + this.name + this.extent);
         try {
@@ -91,6 +93,22 @@ public class Files {
         } catch (Exception e) {
             System.out.println("File " + this.name + this.extent + " cannot be created");
         }
+        //readFile(currentDir); prueba
+    }
+
+    //Read current file
+    public void readFile(String currentDir){
+        File file = new File(currentDir + "\\" + this.name + this.extent);
+        try {
+            Scanner myReader = new Scanner(file);  
+            while (myReader.hasNextLine()) {
+                String data = myReader.nextLine();
+                System.out.println(data);
+            }
+            myReader.close();
+        } catch (Exception e) {
+            System.out.println("An error occurred. File cannot be read.");
+        } 
     }
     
 }
