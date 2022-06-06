@@ -4,17 +4,47 @@
  */
 package so.filesystem;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Aozhen
  */
 public class FileSystemApp extends javax.swing.JFrame {
+    public FileSystem fs;
 
     /**
      * Creates new form FileSystemApp
      */
     public FileSystemApp() {
         initComponents();
+        
+        
+    }
+    
+    public void test(){
+        this.fs = new FileSystem();
+        try {
+            this.fs.createVD(10, 10);
+        } catch (IOException ex) {
+            Logger.getLogger(FileSystemApp.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        this.fs.createDirectory("FirstDir");
+        this.fs.createDirectory("SecondDir");
+        this.fs.createDirectory("ThirdDir");
+    }
+    
+    public void refreshView(){
+        ArrayList<Directory> dirs = this.fs.getCurrent().getDirectories();
+        this.list1.removeAll();
+        for(Directory dir : dirs){
+            System.out.println(dir.getName());
+            this.list1.add(dir.getName());
+        }
     }
 
     /**
@@ -26,23 +56,15 @@ public class FileSystemApp extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList<>();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTree1 = new javax.swing.JTree();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jTextField1 = new javax.swing.JTextField();
         jButton3 = new javax.swing.JButton();
+        list1 = new java.awt.List();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        jList1.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
-        jScrollPane1.setViewportView(jList1);
 
         jScrollPane2.setViewportView(jTree1);
 
@@ -69,12 +91,12 @@ public class FileSystemApp extends javax.swing.JFrame {
                         .addComponent(jButton1)
                         .addGap(18, 18, 18)
                         .addComponent(jButton2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 213, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 172, Short.MAX_VALUE)
                         .addComponent(jButton3))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1)
+                            .addComponent(list1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jTextField1))))
                 .addContainerGap())
         );
@@ -84,13 +106,14 @@ public class FileSystemApp extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(2, 2, 2)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(list1, javax.swing.GroupLayout.PREFERRED_SIZE, 278, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(20, 20, 20)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
                     .addComponent(jButton2)
-                    .addComponent(jButton3)))
+                    .addComponent(jButton3))
+                .addGap(4, 4, 4))
         );
 
         pack();
@@ -126,7 +149,10 @@ public class FileSystemApp extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new FileSystemApp().setVisible(true);
+                FileSystemApp fsa = new FileSystemApp();
+                fsa.test();
+                fsa.refreshView();
+                fsa.setVisible(true);
             }
         });
     }
@@ -135,11 +161,10 @@ public class FileSystemApp extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
-    private javax.swing.JList<String> jList1;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTree jTree1;
+    private java.awt.List list1;
     // End of variables declaration//GEN-END:variables
 
 }

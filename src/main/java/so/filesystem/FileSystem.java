@@ -105,14 +105,6 @@ public class FileSystem {
         return this.current.getFiles();
     }
     
-    public static void main(String args[]) throws IOException{
-        FileSystem system = new FileSystem();
-        Directory directory= new Directory("C:\\Users\\valev\\Documents");
-        system.current = directory;
-        system.createDirectory("prueba");
 
-        system.createVD(3, 4);
-        system.createFile("prueba",".txt","hi");
-    }
     
 } 
