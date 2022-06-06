@@ -81,34 +81,15 @@ public class Files {
         this.modification = modification;
     }
     
-    //Write and create new file
-    public void writeFile(String currentDir){
-        File newFile = new File(currentDir + "\\" + this.name + this.extent);
-        try {
-            newFile.createNewFile();
-            FileWriter writer = new FileWriter(newFile);
-            writer.write(this.content);
-            writer.close();
-            System.out.println("File " + this.name + this.extent + " has been created");
-        } catch (Exception e) {
-            System.out.println("File " + this.name + this.extent + " cannot be created");
-        }
-        //readFile(currentDir); prueba
+    //Write in a file
+    public void writeFile(String content){
+        this.modification = LocalDateTime.now();
+        this.content = content;
     }
 
     //Read current file
-    public void readFile(String currentDir){
-        File file = new File(currentDir + "\\" + this.name + this.extent);
-        try {
-            Scanner myReader = new Scanner(file);  
-            while (myReader.hasNextLine()) {
-                String data = myReader.nextLine();
-                System.out.println(data);
-            }
-            myReader.close();
-        } catch (Exception e) {
-            System.out.println("An error occurred. File cannot be read.");
-        } 
+    public String readFile(){
+        return this.content;
     }
     
 }
