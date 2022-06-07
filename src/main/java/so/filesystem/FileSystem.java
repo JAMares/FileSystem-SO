@@ -104,25 +104,4 @@ public class FileSystem {
         return this.current.getFiles();
     }
     
-    public static void main(String args[]) throws IOException{
-        FileSystem system = new FileSystem();
-        system.createDirectory("prueba");
-        system.createDirectory("prueba1");
-        system.createDirectory("prueba2");
-
-        system.createVD(3, 4);
-        system.createFile("prueba3",".txt","0");
-        system.createFile("prueba4",".txt","1");
-        system.createFile("prueba5",".txt","2");
-
-        system.current.getDirectories();
-        system.current.getFiles();
-
-        //Change dir
-        system.changeMainDir("prueba");
-
-        system.current.getDirectories();
-        system.current.getFiles();
-    }
-    
 } 
