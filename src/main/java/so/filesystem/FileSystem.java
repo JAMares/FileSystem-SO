@@ -103,5 +103,10 @@ public class FileSystem {
     public ArrayList<Files> getFiles() {
         return this.current.getFiles();
     }
+
+    //Modifies file
+    public void modifyFile(String name, String newContent){
+        this.current.modifyFile(name,newContent);
+    }
     
 } 
