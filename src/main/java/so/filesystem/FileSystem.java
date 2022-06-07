@@ -77,13 +77,13 @@ public class FileSystem {
 
     //Add new directories
     public void createDirectory(String name){
-        Directory newDirec = new Directory(name, current.getRoute()+name+"/");
+        Directory newDirec = new Directory(name, current.getRoute() + name + "/");
         current.addDirectory(newDirec);
     }
 
     //Add new files
     public void createFile(String name, String extension, String content){
-        Files newFile = new Files(name,content,extension);
+        Files newFile = new Files(name,content,extension, current.getRoute() + name + extension);
         current.addFiles(newFile);
     }
 
