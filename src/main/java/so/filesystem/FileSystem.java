@@ -10,6 +10,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  *
@@ -140,26 +141,69 @@ public class FileSystem {
         ArrayList<String> directions = new ArrayList<>();
         directions.addAll(root.Find(target));
         System.out.println("Rutas encontradas"); //Mensaje de prueba
-        for(Integer pos = 0; pos < directions.size(); pos++){
+        for(int pos = 0; pos < directions.size(); pos++){
             System.out.println(directions.get(pos));
         }
+    }
+    
+    //Parse the route to get the roadmap
+    private ArrayList<String> parserRoute(String route){
+        String[] dirs = route.split("/");
+        ArrayList<String> road = new ArrayList<>(Arrays.asList(dirs));
+        return road;
+    }
+    
+    //Find the file by roadmap
+    public Files findFileRoute(ArrayList<String> roadmap){
+        roadmap.remove(0);
+        Directory road = root;
+        while(!roadmap.isEmpty()){
+            if(roadmap.size() == 1){
+                for(int pos = 0; pos < road.getFiles().size(); pos++){
+                    Files file = road.getFiles().get(pos);
+                    if(file.getName().equals(roadmap.get(0))){
+                        return file;
+                    }
+                }
+            } else {
+                road = road.findDir(roadmap.get(0));
+                roadmap.remove(0);
+            }
+        }
+        return null;
+    }
+    
+    //Find the Directory by roadmap
+    public Directory findDirRoute(ArrayList<String> roadmap){
+        roadmap.remove(0);
+        Directory road = root;
+        while(!roadmap.isEmpty()){
+            if(roadmap.size() == 1){
+                Directory dir = road.findDir(roadmap.get(0));
+                if(dir != null)
+                    return dir;
+            } else {
+                road = road.findDir(roadmap.get(0));
+                roadmap.remove(0);
+            }
+        }
+        return null;
     }
     
     //Remove File or Dir
     public void ReMove(String target, boolean isDir){
         if(isDir){
-            for(Integer pos = 0; pos < current.getDirectories().size(); pos++){
+            for(int pos = 0; pos < current.getDirectories().size(); pos++){
                 Directory dir = current.getDirectories().get(pos);
                 if(dir.getName().equals(target)){
                     dir.RemoveDir();
-                    dir = null;
                     current.getDirectories().remove(pos);
                     break;
                 }
             }
         }
         else {
-            for(Integer pos = 0; pos < current.getFiles().size(); pos++){
+            for(int pos = 0; pos < current.getFiles().size(); pos++){
                 Files file = current.getFiles().get(pos);
                 if(file.getName().equals(target)){
                     current.getFiles().remove(pos);
