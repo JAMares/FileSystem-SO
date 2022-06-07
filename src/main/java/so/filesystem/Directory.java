@@ -113,7 +113,7 @@ public class Directory {
     }
     
     
-   //Find file or directory
+   //Find file or directory route
    public ArrayList<String> Find(String target){
        ArrayList<String> rutas = new ArrayList<>();
        if(!files.isEmpty()){
@@ -143,12 +143,10 @@ public class Directory {
    //Remove directory
    public void RemoveDir(){
        if(!files.isEmpty()){
-           for(Integer posFile = 0; posFile < files.size(); posFile++){
-               files.removeAll(files);
-           }
+           files.removeAll(files);
        }
        if(!directories.isEmpty()){
-           for(Integer posDir = 0; posDir < directories.size(); posDir++){
+           for(int posDir = 0; posDir < directories.size(); posDir++){
                directories.get(posDir).RemoveDir();
            }
            directories.removeAll(directories);
