@@ -6,6 +6,9 @@ package so.filesystem;
 import java.io.File;  // Import the File class
 import java.io.FileWriter;
 import java.io.IOException;  // Import the IOException class to handle errors
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 /**
@@ -51,7 +54,7 @@ public class FileSystem {
     }
 
     public FileSystem() {
-        this.root = new Directory("root");
+        this.root = new Directory("root", "route");
         this.current = root;
     }
     
@@ -73,7 +76,7 @@ public class FileSystem {
 
     //Add new directories
     public void createDirectory(String name){
-        Directory newDirec = new Directory(name);
+        Directory newDirec = new Directory(name, current.getName()+"/");
         current.addDirectory(newDirec);
     }
 
@@ -107,6 +110,63 @@ public class FileSystem {
     //Modifies file
     public void modifyFile(String name, String newContent){
         this.current.modifyFile(name,newContent);
+    }
+    
+    
+    //Show file properties
+    public void showFileProperties(Files file){
+        System.out.println("Name: " + file.getName());
+        System.out.println("Extent: " + file.getExtent());
+        
+        LocalDateTime creation = file.getCreation();
+        LocalDateTime modification = file.getModification();
+        DateTimeFormatter formatC = DateTimeFormatter.ISO_DATE;
+        DateTimeFormatter formatM = DateTimeFormatter.ISO_DATE;
+        String creationString = creation.format(formatC);
+        String modificationString = modification.format(formatM);
+        
+        System.out.println("Creation: " + creationString);
+        System.out.println("Modification: " + modificationString);
+        System.out.println("Size: " + file.getContent().length());
+    }
+    
+    //Show file content
+    public void showFileContent(Files file){
+        System.out.println("Content: " + file.getContent());
+    }
+    
+    //Find route list
+    public void FindRouteList(String target){
+        ArrayList<String> directions = new ArrayList<>();
+        directions.addAll(root.Find(target));
+        System.out.println("Rutas encontradas"); //Mensaje de prueba
+        for(Integer pos = 0; pos < directions.size(); pos++){
+            System.out.println(directions.get(pos));
+        }
+    }
+    
+    //Remove File or Dir
+    public void ReMove(String target, boolean isDir){
+        if(isDir){
+            for(Integer pos = 0; pos < current.getDirectories().size(); pos++){
+                Directory dir = current.getDirectories().get(pos);
+                if(dir.getName().equals(target)){
+                    dir.RemoveDir();
+                    dir = null;
+                    current.getDirectories().remove(pos);
+                    break;
+                }
+            }
+        }
+        else {
+            for(Integer pos = 0; pos < current.getFiles().size(); pos++){
+                Files file = current.getFiles().get(pos);
+                if(file.getName().equals(target)){
+                    current.getFiles().remove(pos);
+                    break;
+                }
+            }
+        }
     }
     
 } 
