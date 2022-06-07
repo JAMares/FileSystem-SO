@@ -54,7 +54,7 @@ public class FileSystem {
     }
 
     public FileSystem() {
-        this.root = new Directory("root", "route");
+        this.root = new Directory("root", "root/");
         this.current = root;
     }
     
@@ -76,7 +76,7 @@ public class FileSystem {
 
     //Add new directories
     public void createDirectory(String name){
-        Directory newDirec = new Directory(name, current.getName()+"/");
+        Directory newDirec = new Directory(name, current.getRoute()+name+"/");
         current.addDirectory(newDirec);
     }
 

@@ -10,7 +10,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListModel;
+import javax.swing.JTree;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
 
 /**
  *
@@ -24,6 +27,7 @@ public class FileSystemApp extends javax.swing.JFrame {
      */
     public FileSystemApp() {
         initComponents();
+        
     }
     
     public void test(){
@@ -36,15 +40,20 @@ public class FileSystemApp extends javax.swing.JFrame {
     }
     
     public void refreshView(){
+        DefaultMutableTreeNode root = new DefaultMutableTreeNode(this.fs.getRoot());
+        this.fs.getRoot().generateTree(root);
+        DefaultTreeModel treeModel = new DefaultTreeModel(root);
+        this.jTree1.setModel(treeModel);
         ArrayList<Directory> dirs = this.fs.getCurrent().getDirectories();
         ArrayList<Files> fils = this.fs.getCurrent().getFiles();
+        this.jTextField1.setText(this.fs.getCurrent().getRoute());
         DefaultListModel listModel = (DefaultListModel) this.jList1.getModel();
         listModel.removeAllElements();
         for(Directory dir : dirs){
-            listModel.addElement(dir.getName());
+            listModel.addElement(dir);
         }
         for(Files fil : fils){
-            listModel.addElement(fil.getName()+fil.getExtent());
+            listModel.addElement(fil);
         }
     }
 
@@ -70,6 +79,10 @@ public class FileSystemApp extends javax.swing.JFrame {
         fileContentInput = new javax.swing.JTextField();
         fileExtensionInput = new javax.swing.JComboBox<>();
         jLabel3 = new javax.swing.JLabel();
+        fileOpenDialog = new javax.swing.JDialog();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        fileOpenText = new javax.swing.JTextArea();
+        fileOpenBtn = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTree1 = new javax.swing.JTree();
         jButton1 = new javax.swing.JButton();
@@ -79,6 +92,7 @@ public class FileSystemApp extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jList1 = new javax.swing.JList<>();
         jButton4 = new javax.swing.JButton();
+        jButton5 = new javax.swing.JButton();
 
         dirInputDialog.setTitle("Input directory name:");
         dirInputDialog.setAlwaysOnTop(true);
@@ -204,13 +218,64 @@ public class FileSystemApp extends javax.swing.JFrame {
                 .addGap(66, 66, 66))
         );
 
+        fileOpenDialog.setBounds(new java.awt.Rectangle(20, 20, 400, 300));
+
+        fileOpenText.setEditable(false);
+        fileOpenText.setColumns(20);
+        fileOpenText.setRows(5);
+        jScrollPane3.setViewportView(fileOpenText);
+
+        fileOpenBtn.setText("OK");
+        fileOpenBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                fileOpenBtnActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout fileOpenDialogLayout = new javax.swing.GroupLayout(fileOpenDialog.getContentPane());
+        fileOpenDialog.getContentPane().setLayout(fileOpenDialogLayout);
+        fileOpenDialogLayout.setHorizontalGroup(
+            fileOpenDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(fileOpenDialogLayout.createSequentialGroup()
+                .addGroup(fileOpenDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(fileOpenDialogLayout.createSequentialGroup()
+                        .addGap(170, 170, 170)
+                        .addComponent(fileOpenBtn))
+                    .addGroup(fileOpenDialogLayout.createSequentialGroup()
+                        .addGap(82, 82, 82)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(92, Short.MAX_VALUE))
+        );
+        fileOpenDialogLayout.setVerticalGroup(
+            fileOpenDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(fileOpenDialogLayout.createSequentialGroup()
+                .addGap(107, 107, 107)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(fileOpenBtn)
+                .addContainerGap(64, Short.MAX_VALUE))
+        );
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        jTree1.setCellRenderer(new FileSystemTreeRenderer());
+        jTree1.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jTree1FocusLost(evt);
+            }
+        });
         jScrollPane2.setViewportView(jTree1);
 
         jButton1.setText("Open");
+        jButton1.setFocusable(false);
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setText("Delete");
+        jButton2.setFocusable(false);
 
         jTextField1.setEditable(false);
         jTextField1.setText("pathTextField");
@@ -218,6 +283,7 @@ public class FileSystemApp extends javax.swing.JFrame {
         jTextField1.setAlignmentY(0.0F);
 
         jButton3.setText("New File");
+        jButton3.setFocusable(false);
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
@@ -226,53 +292,69 @@ public class FileSystemApp extends javax.swing.JFrame {
 
         jList1.setModel(new javax.swing.DefaultListModel()
         );
+        jList1.setCellRenderer(new FileSystemListRenderer());
+        jList1.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jList1FocusLost(evt);
+            }
+        });
         jScrollPane1.setViewportView(jList1);
 
         jButton4.setText("New Dir");
+        jButton4.setFocusable(false);
         jButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton4ActionPerformed(evt);
             }
         });
 
+        jButton5.setText("Properties");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(21, 21, 21)
-                        .addComponent(jButton1)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 90, Short.MAX_VALUE)
+                        .addContainerGap()
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButton4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton3))
+                        .addComponent(jButton3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton5))
                     .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 396, Short.MAX_VALUE)
                             .addComponent(jTextField1))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 288, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 288, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2)
-                    .addComponent(jButton3)
-                    .addComponent(jButton4))
-                .addGap(4, 4, 4))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jButton1)
+                        .addComponent(jButton2))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jButton4)
+                        .addComponent(jButton3)
+                        .addComponent(jButton5)))
+                .addContainerGap())
         );
 
         pack();
@@ -286,7 +368,8 @@ public class FileSystemApp extends javax.swing.JFrame {
 
     private void dirInputButtonOkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dirInputButtonOkActionPerformed
         // TODO add your handling code here:
-        this.fs.createDirectory(this.dirTextInput.getText());
+        String name = this.dirTextInput.getText();
+        this.fs.createDirectory(name);
         this.refreshView();
         this.dirInputDialog.setVisible(false);
         
@@ -321,6 +404,50 @@ public class FileSystemApp extends javax.swing.JFrame {
         // TODO add your handling code here:
         
     }//GEN-LAST:event_fileContentInputActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        if(this.jList1.isFocusOwner()){
+            if(this.jList1.getSelectedValue() instanceof Files file){
+                this.fileOpenDialog.setTitle(file.toString());
+                this.fileOpenText.setText(file.getContent());
+                this.fileOpenDialog.setVisible(true);
+            }
+            if(this.jList1.getSelectedValue() instanceof Directory dir){
+                this.fs.changeMainDir(dir.getName());
+                this.refreshView();
+            }
+        }
+        if(this.jTree1.isFocusOwner()){
+            if(this.jTree1.getLastSelectedPathComponent() instanceof DefaultMutableTreeNode tNode){
+                if(tNode.getUserObject() instanceof Directory dir){
+                    this.fs.setCurrent(dir);
+                    this.refreshView();
+                }
+                if(tNode.getUserObject() instanceof Files file){
+                    this.fileOpenDialog.setTitle(file.toString());
+                    this.fileOpenText.setText(file.getContent());
+                    this.fileOpenDialog.setVisible(true);
+                }
+            }
+        }
+        
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void fileOpenBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fileOpenBtnActionPerformed
+        // TODO add your handling code here:
+        this.fileOpenDialog.setVisible(false);
+    }//GEN-LAST:event_fileOpenBtnActionPerformed
+
+    private void jList1FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jList1FocusLost
+        // TODO add your handling code here:
+        this.jList1.clearSelection();
+    }//GEN-LAST:event_jList1FocusLost
+
+    private void jTree1FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTree1FocusLost
+        // TODO add your handling code here:
+        this.jTree1.clearSelection();
+    }//GEN-LAST:event_jTree1FocusLost
 
     /**
      * @param args the command line arguments
@@ -371,16 +498,21 @@ public class FileSystemApp extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> fileExtensionInput;
     private javax.swing.JDialog fileInputDialog;
     private javax.swing.JTextField fileNameInput;
+    private javax.swing.JButton fileOpenBtn;
+    private javax.swing.JDialog fileOpenDialog;
+    private javax.swing.JTextArea fileOpenText;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JList<String> jList1;
+    private javax.swing.JList<Object> jList1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTree jTree1;
     // End of variables declaration//GEN-END:variables

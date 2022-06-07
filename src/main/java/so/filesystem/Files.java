@@ -92,4 +92,9 @@ public class Files {
         return this.content;
     }
     
+    @Override
+    public String toString(){
+        return this.getName()+this.getExtent();
+    }
+    
 }

@@ -5,6 +5,7 @@
 package so.filesystem;
 
 import java.util.ArrayList;
+import javax.swing.tree.DefaultMutableTreeNode;
 
 /**
  *
@@ -112,6 +113,17 @@ public class Directory {
         this.files.add(file);
     }
     
+    public void generateTree(DefaultMutableTreeNode node){
+        for(Directory dir: this.directories){
+            DefaultMutableTreeNode child = new DefaultMutableTreeNode(dir);
+            dir.generateTree(child);
+            node.add(child);
+        }
+        for(Files file : this.files){
+            DefaultMutableTreeNode child = new DefaultMutableTreeNode(file);
+            node.add(child);
+        }
+    }
     
    //Find file or directory
    public ArrayList<String> Find(String target){
@@ -154,5 +166,10 @@ public class Directory {
            directories.removeAll(directories);
        }
    }
-    
+   
+    @Override
+   public String toString(){
+       return this.getName();
+   }
+   
 }
