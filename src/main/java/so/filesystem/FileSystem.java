@@ -213,4 +213,49 @@ public class FileSystem {
         }
     }
     
+    private boolean sameRoute(ArrayList<String> origin, ArrayList<String> goal){
+        int originSize = origin.size();
+        int goalSize = goal.size();
+        if(originSize != goalSize)
+            return false;
+        else{
+            for(int pos = 0; pos < originSize-1; pos++){
+                if(!origin.get(pos).equals(goal.get(pos)))
+                    return false;
+            }
+        }
+        return true;
+    }
+    
+    public void Move(String routeOrigin, String routeGoal){
+        ArrayList<String> originRoad = parserRoute(routeOrigin);
+        ArrayList<String> goalRoad = parserRoute(routeGoal);
+        
+        int originSize = originRoad.size();
+        int goalSize = goalRoad.size();
+        
+        if(sameRoute(originRoad, goalRoad)){//Rename
+            String newName = goalRoad.get(goalSize-1);
+            Files old = findFileRoute(originRoad);
+            
+            goalRoad.remove(goalSize-1);
+            Directory tmpDir = current;
+            this.current = findDirRoute(goalRoad);
+            createFile(newName, old.getExtent(), old.getContent());
+            this.current = tmpDir;
+        } 
+        else {
+            Files old = findFileRoute(originRoad);
+            Directory tmpDir = current;
+            this.current = findDirRoute(goalRoad);
+            createFile(old.getName(), old.getExtent(), old.getContent());
+            this.current = tmpDir;
+                       
+            originRoad.remove(originSize-1);
+            this.current = findDirRoute(originRoad);
+            ReMove(old.getName(), false);
+            this.current = tmpDir;
+        }
+    }
+    
 } 
