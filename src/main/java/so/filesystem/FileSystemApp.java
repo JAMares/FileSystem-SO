@@ -681,14 +681,9 @@ public class FileSystemApp extends javax.swing.JFrame {
                 
                 this.filePropertiesDialog.setVisible(true);
             }
-            if(this.jList1.getSelectedValue() instanceof Directory dir){
-                
-            }
         }
         if(this.jTree1.isFocusOwner()){
             if(this.jTree1.getLastSelectedPathComponent() instanceof DefaultMutableTreeNode tNode){
-                if(tNode.getUserObject() instanceof Directory dir){
-                }
                 if(tNode.getUserObject() instanceof Files file){
                     LocalDateTime creation = file.getCreation();
                     LocalDateTime modification = file.getModification();
@@ -744,7 +739,6 @@ public class FileSystemApp extends javax.swing.JFrame {
                 }
             }
         }
-        this.refreshView();
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void moveBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_moveBtnActionPerformed
@@ -756,7 +750,7 @@ public class FileSystemApp extends javax.swing.JFrame {
         else{
             this.fs.Move(this.moveCurrentPathText.getText(), this.moveTargetPathText.getText(), false);
         }
-        
+        this.refreshView();
     }//GEN-LAST:event_moveBtnActionPerformed
 
     private void moveCancelBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_moveCancelBtnActionPerformed
