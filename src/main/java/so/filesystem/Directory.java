@@ -131,9 +131,9 @@ public class Directory {
        if(!files.isEmpty()){
            for(Integer posFile = 0; posFile < files.size(); posFile++){
                Files file = files.get(posFile);
-               String parse = "*." + file.getExtent();
+               String parse = "*" + file.getExtent();
                if(file.getName().equals(target) || parse.equals(target)){
-                   rutas.add(route + "/" + file.getName() + file.getExtent());
+                   rutas.add(file.getRoute());
                }
            }
        }
