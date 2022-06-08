@@ -5,6 +5,8 @@
 package so.filesystem;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -83,6 +85,23 @@ public class FileSystemApp extends javax.swing.JFrame {
         jScrollPane3 = new javax.swing.JScrollPane();
         fileOpenText = new javax.swing.JTextArea();
         fileOpenBtn = new javax.swing.JButton();
+        filePropertiesDialog = new javax.swing.JDialog();
+        filePropertiesBtn = new javax.swing.JButton();
+        filePropertiesNameText = new javax.swing.JTextField();
+        filePropertiesSizeText = new javax.swing.JTextField();
+        filePropertiesCreatedText = new javax.swing.JTextField();
+        filePropertiesModifiedText = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        moveItemDialog = new javax.swing.JDialog();
+        moveCurrentPathText = new javax.swing.JTextField();
+        moveTargetPathText = new javax.swing.JTextField();
+        jLabel8 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        moveBtn = new javax.swing.JButton();
+        moveCancelBtn = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTree1 = new javax.swing.JTree();
         jButton1 = new javax.swing.JButton();
@@ -93,6 +112,8 @@ public class FileSystemApp extends javax.swing.JFrame {
         jList1 = new javax.swing.JList<>();
         jButton4 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
+        jButton6 = new javax.swing.JButton();
+        jButton7 = new javax.swing.JButton();
 
         dirInputDialog.setTitle("Input directory name:");
         dirInputDialog.setAlwaysOnTop(true);
@@ -256,6 +277,154 @@ public class FileSystemApp extends javax.swing.JFrame {
                 .addContainerGap(64, Short.MAX_VALUE))
         );
 
+        filePropertiesDialog.setBounds(new java.awt.Rectangle(10, 10, 400, 300));
+
+        filePropertiesBtn.setText("OK");
+        filePropertiesBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                filePropertiesBtnActionPerformed(evt);
+            }
+        });
+
+        filePropertiesNameText.setEditable(false);
+        filePropertiesNameText.setText("jTextField2");
+
+        filePropertiesSizeText.setEditable(false);
+        filePropertiesSizeText.setText("jTextField2");
+
+        filePropertiesCreatedText.setEditable(false);
+        filePropertiesCreatedText.setText("jTextField2");
+
+        filePropertiesModifiedText.setEditable(false);
+        filePropertiesModifiedText.setText("jTextField2");
+
+        jLabel4.setText("Name");
+
+        jLabel5.setText("Size");
+
+        jLabel6.setText("Created");
+
+        jLabel7.setText("Modified");
+
+        javax.swing.GroupLayout filePropertiesDialogLayout = new javax.swing.GroupLayout(filePropertiesDialog.getContentPane());
+        filePropertiesDialog.getContentPane().setLayout(filePropertiesDialogLayout);
+        filePropertiesDialogLayout.setHorizontalGroup(
+            filePropertiesDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(filePropertiesDialogLayout.createSequentialGroup()
+                .addGroup(filePropertiesDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(filePropertiesDialogLayout.createSequentialGroup()
+                        .addGap(167, 167, 167)
+                        .addComponent(filePropertiesBtn))
+                    .addGroup(filePropertiesDialogLayout.createSequentialGroup()
+                        .addGap(52, 52, 52)
+                        .addGroup(filePropertiesDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, filePropertiesDialogLayout.createSequentialGroup()
+                                .addComponent(jLabel7)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(filePropertiesModifiedText, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, filePropertiesDialogLayout.createSequentialGroup()
+                                .addGroup(filePropertiesDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel4)
+                                    .addComponent(jLabel5))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(filePropertiesDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(filePropertiesSizeText, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(filePropertiesNameText, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, filePropertiesDialogLayout.createSequentialGroup()
+                                .addComponent(jLabel6)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(filePropertiesCreatedText, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addContainerGap(49, Short.MAX_VALUE))
+        );
+        filePropertiesDialogLayout.setVerticalGroup(
+            filePropertiesDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, filePropertiesDialogLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(filePropertiesDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(filePropertiesDialogLayout.createSequentialGroup()
+                        .addGroup(filePropertiesDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(filePropertiesNameText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel4))
+                        .addGap(18, 18, 18)
+                        .addGroup(filePropertiesDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel5)
+                            .addComponent(filePropertiesSizeText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(43, 43, 43))
+                    .addGroup(filePropertiesDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel6)
+                        .addComponent(filePropertiesCreatedText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(18, 18, 18)
+                .addGroup(filePropertiesDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(filePropertiesModifiedText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel7))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 104, Short.MAX_VALUE)
+                .addComponent(filePropertiesBtn)
+                .addContainerGap())
+        );
+
+        moveItemDialog.setBounds(new java.awt.Rectangle(10, 10, 400, 300));
+
+        moveCurrentPathText.setEditable(false);
+        moveCurrentPathText.setText("jTextField2");
+
+        moveTargetPathText.setText("jTextField3");
+
+        jLabel8.setText("Current Path");
+
+        jLabel9.setText("Target Path");
+
+        moveBtn.setText("Move");
+        moveBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                moveBtnActionPerformed(evt);
+            }
+        });
+
+        moveCancelBtn.setText("Cancel");
+        moveCancelBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                moveCancelBtnActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout moveItemDialogLayout = new javax.swing.GroupLayout(moveItemDialog.getContentPane());
+        moveItemDialog.getContentPane().setLayout(moveItemDialogLayout);
+        moveItemDialogLayout.setHorizontalGroup(
+            moveItemDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(moveItemDialogLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(moveItemDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel8)
+                    .addComponent(jLabel9))
+                .addGap(18, 18, 18)
+                .addGroup(moveItemDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(moveItemDialogLayout.createSequentialGroup()
+                        .addComponent(moveBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(71, 71, 71)
+                        .addComponent(moveCancelBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 88, Short.MAX_VALUE))
+                    .addComponent(moveTargetPathText)
+                    .addComponent(moveCurrentPathText))
+                .addContainerGap())
+        );
+        moveItemDialogLayout.setVerticalGroup(
+            moveItemDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(moveItemDialogLayout.createSequentialGroup()
+                .addGap(60, 60, 60)
+                .addGroup(moveItemDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(moveCurrentPathText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel8))
+                .addGap(50, 50, 50)
+                .addGroup(moveItemDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(moveTargetPathText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel9))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 122, Short.MAX_VALUE)
+                .addGroup(moveItemDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(moveBtn)
+                    .addComponent(moveCancelBtn))
+                .addContainerGap())
+        );
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jTree1.setCellRenderer(new FileSystemTreeRenderer());
@@ -276,6 +445,11 @@ public class FileSystemApp extends javax.swing.JFrame {
 
         jButton2.setText("Delete");
         jButton2.setFocusable(false);
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jTextField1.setEditable(false);
         jTextField1.setText("pathTextField");
@@ -309,6 +483,23 @@ public class FileSystemApp extends javax.swing.JFrame {
         });
 
         jButton5.setText("Properties");
+        jButton5.setFocusable(false);
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
+
+        jButton6.setText("Copy");
+        jButton6.setFocusable(false);
+
+        jButton7.setText("Move");
+        jButton7.setFocusable(false);
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -317,22 +508,28 @@ public class FileSystemApp extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 396, Short.MAX_VALUE)
+                            .addComponent(jTextField1)))
+                    .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButton7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButton4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton5))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 396, Short.MAX_VALUE)
-                            .addComponent(jTextField1))))
+                        .addComponent(jButton5)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -348,13 +545,17 @@ public class FileSystemApp extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jButton1)
-                        .addComponent(jButton2))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jButton4)
                         .addComponent(jButton3)
-                        .addComponent(jButton5)))
-                .addContainerGap())
+                        .addComponent(jButton5))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jButton1)
+                        .addComponent(jButton2)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton6)
+                    .addComponent(jButton7))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -449,6 +650,120 @@ public class FileSystemApp extends javax.swing.JFrame {
         this.jTree1.clearSelection();
     }//GEN-LAST:event_jTree1FocusLost
 
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        if(this.jList1.getSelectedValue() instanceof Files file){
+            this.fs.ReMove(file.getName(), false);
+            this.refreshView();
+        }
+        if(this.jList1.getSelectedValue() instanceof Directory dir){
+            this.fs.ReMove(dir.getName(), true);
+            this.refreshView();
+            
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        // TODO add your handling code here:
+        if(this.jList1.isFocusOwner()){
+            if(this.jList1.getSelectedValue() instanceof Files file){
+                LocalDateTime creation = file.getCreation();
+                LocalDateTime modification = file.getModification();
+                DateTimeFormatter formatC = DateTimeFormatter.ISO_DATE;
+                DateTimeFormatter formatM = DateTimeFormatter.ISO_DATE;
+                String creationString = creation.format(formatC);
+                String modificationString = modification.format(formatM);
+                this.filePropertiesDialog.setTitle("Properties of "+file.toString());
+                this.filePropertiesNameText.setText(file.toString());
+                this.filePropertiesSizeText.setText(Integer.toString(file.getName().length()));
+                this.filePropertiesCreatedText.setText(creationString);
+                this.filePropertiesModifiedText.setText(modificationString);
+                
+                this.filePropertiesDialog.setVisible(true);
+            }
+            if(this.jList1.getSelectedValue() instanceof Directory dir){
+                
+            }
+        }
+        if(this.jTree1.isFocusOwner()){
+            if(this.jTree1.getLastSelectedPathComponent() instanceof DefaultMutableTreeNode tNode){
+                if(tNode.getUserObject() instanceof Directory dir){
+                }
+                if(tNode.getUserObject() instanceof Files file){
+                    LocalDateTime creation = file.getCreation();
+                    LocalDateTime modification = file.getModification();
+                    DateTimeFormatter formatC = DateTimeFormatter.ISO_DATE;
+                    DateTimeFormatter formatM = DateTimeFormatter.ISO_DATE;
+                    String creationString = creation.format(formatC);
+                    String modificationString = modification.format(formatM);
+                    this.filePropertiesDialog.setTitle("Properties of "+file.toString());
+                    this.filePropertiesNameText.setText(file.toString());
+                    this.filePropertiesSizeText.setText(Integer.toString(file.getName().length()));
+                    this.filePropertiesCreatedText.setText(creationString);
+                    this.filePropertiesModifiedText.setText(modificationString);
+                    this.filePropertiesDialog.setVisible(true);
+                }
+            }
+        }
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void filePropertiesBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_filePropertiesBtnActionPerformed
+        // TODO add your handling code here:
+        this.filePropertiesDialog.setVisible(false);
+    }//GEN-LAST:event_filePropertiesBtnActionPerformed
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        // TODO add your handling code here:
+        if(this.jList1.isFocusOwner()){
+            if(this.jList1.getSelectedValue() instanceof Files file){
+                this.moveItemDialog.setTitle("Moving File: "+file.toString());
+                this.moveCurrentPathText.setText(file.getRoute());
+                this.moveTargetPathText.setText(file.getRoute());
+                this.moveItemDialog.setVisible(true);
+            }
+            if(this.jList1.getSelectedValue() instanceof Directory dir){
+                this.moveItemDialog.setTitle("Moving Directory: "+dir.toString());
+                this.moveCurrentPathText.setText(dir.getRoute());
+                this.moveTargetPathText.setText(dir.getRoute());
+                this.moveItemDialog.setVisible(true);
+            }
+        }
+        if(this.jTree1.isFocusOwner()){
+            if(this.jTree1.getLastSelectedPathComponent() instanceof DefaultMutableTreeNode tNode){
+                if(tNode.getUserObject() instanceof Directory dir){
+                    this.moveItemDialog.setTitle("Moving Directory: "+dir.toString());
+                    this.moveCurrentPathText.setText(dir.getRoute());
+                    this.moveTargetPathText.setText(dir.getRoute());
+                    this.moveItemDialog.setVisible(true);
+                }
+                if(tNode.getUserObject() instanceof Files file){
+                    this.moveItemDialog.setTitle("Moving File: "+file.toString());
+                    this.moveCurrentPathText.setText(file.getRoute());
+                    this.moveTargetPathText.setText(file.getRoute());
+                    this.moveItemDialog.setVisible(true);
+                }
+            }
+        }
+        this.refreshView();
+    }//GEN-LAST:event_jButton7ActionPerformed
+
+    private void moveBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_moveBtnActionPerformed
+        // TODO add your handling code here:
+        this.moveItemDialog.setVisible(false);
+        if(this.moveItemDialog.getTitle().contains("Moving Directory")){
+            this.fs.Move(this.moveCurrentPathText.getText(), this.moveTargetPathText.getText(), true);
+        }
+        else{
+            this.fs.Move(this.moveCurrentPathText.getText(), this.moveTargetPathText.getText(), false);
+        }
+        
+    }//GEN-LAST:event_moveBtnActionPerformed
+
+    private void moveCancelBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_moveCancelBtnActionPerformed
+        // TODO add your handling code here:
+        this.moveItemDialog.setVisible(false);
+    }//GEN-LAST:event_moveCancelBtnActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -501,20 +816,39 @@ public class FileSystemApp extends javax.swing.JFrame {
     private javax.swing.JButton fileOpenBtn;
     private javax.swing.JDialog fileOpenDialog;
     private javax.swing.JTextArea fileOpenText;
+    private javax.swing.JButton filePropertiesBtn;
+    private javax.swing.JTextField filePropertiesCreatedText;
+    private javax.swing.JDialog filePropertiesDialog;
+    private javax.swing.JTextField filePropertiesModifiedText;
+    private javax.swing.JTextField filePropertiesNameText;
+    private javax.swing.JTextField filePropertiesSizeText;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButton6;
+    private javax.swing.JButton jButton7;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JList<Object> jList1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTree jTree1;
+    private javax.swing.JButton moveBtn;
+    private javax.swing.JButton moveCancelBtn;
+    private javax.swing.JTextField moveCurrentPathText;
+    private javax.swing.JDialog moveItemDialog;
+    private javax.swing.JTextField moveTargetPathText;
     // End of variables declaration//GEN-END:variables
 
 }
