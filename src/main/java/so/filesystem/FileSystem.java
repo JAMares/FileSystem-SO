@@ -6,7 +6,6 @@ package so.filesystem;
 import java.io.File;  // Import the File class
 import java.io.FileWriter;
 import java.io.IOException;  // Import the IOException class to handle errors
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -227,35 +226,43 @@ public class FileSystem {
         return true;
     }
     
-    public void Move(String routeOrigin, String routeGoal){
+    public void Move(String routeOrigin, String routeGoal, boolean isDir){
         ArrayList<String> originRoad = parserRoute(routeOrigin);
         ArrayList<String> goalRoad = parserRoute(routeGoal);
         
         int originSize = originRoad.size();
         int goalSize = goalRoad.size();
-        
-        if(sameRoute(originRoad, goalRoad)){//Rename
-            String newName = goalRoad.get(goalSize-1);
-            Files old = findFileRoute(originRoad);
+        Directory tmpDir = current;
             
-            goalRoad.remove(goalSize-1);
-            Directory tmpDir = current;
-            this.current = findDirRoute(goalRoad);
-            createFile(newName, old.getExtent(), old.getContent());
-            this.current = tmpDir;
-        } 
-        else {
+        if(!isDir){
             Files old = findFileRoute(originRoad);
-            Directory tmpDir = current;
-            this.current = findDirRoute(goalRoad);
-            createFile(old.getName(), old.getExtent(), old.getContent());
-            this.current = tmpDir;
-                       
+            if(sameRoute(originRoad, goalRoad)){//Rename
+                String newName = goalRoad.get(goalSize-1);
+                goalRoad.remove(goalSize-1);
+                this.current = findDirRoute(goalRoad);
+                createFile(newName, old.getExtent(), old.getContent());
+                this.current = tmpDir;
+            } 
+            else {
+                this.current = findDirRoute(goalRoad);
+                createFile(old.getName(), old.getExtent(), old.getContent());
+                originRoad.remove(originSize-1);
+                this.current = findDirRoute(originRoad);
+                ReMove(old.getName(), false);
+                this.current = tmpDir;
+            } 
+        }
+        else{
+            Directory dirOrigin = findDirRoute(originRoad);
+            Directory dirGoal = findDirRoute(goalRoad);
+            dirGoal.addDirectory(dirOrigin);
+            String oldDir = originRoad.get(originSize-1);
             originRoad.remove(originSize-1);
             this.current = findDirRoute(originRoad);
-            ReMove(old.getName(), false);
+            ReMove(oldDir, true);
             this.current = tmpDir;
         }
+        
     }
     
 } 
