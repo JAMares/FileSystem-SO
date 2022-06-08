@@ -18,16 +18,26 @@ public class Files {
     private String name;
     private String content;
     private String extent;
+    private String route;
     private ArrayList<Integer> sectors;
     private LocalDateTime creation;
     private LocalDateTime modification;
+
+    public String getRoute() {
+        return route;
+    }
+
+    public void setRoute(String route) {
+        this.route = route;
+    }
     
     
    
-    public Files(String name, String content, String extent) {
+    public Files(String name, String content, String extent, String route) {
         this.name = name;
         this.content = content;
         this.extent = extent;
+        this.route = route;
         this.creation = LocalDateTime.now();
         this.modification = LocalDateTime.now();
         this.sectors = new ArrayList<>();
@@ -90,6 +100,11 @@ public class Files {
     //Read current file
     public String readFile(){
         return this.content;
+    }
+    
+    @Override
+    public String toString(){
+        return this.getName()+this.getExtent();
     }
     
 }
