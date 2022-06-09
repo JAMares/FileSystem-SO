@@ -174,17 +174,22 @@ public class Directory {
 
    //Updates all routes
    public void UpdateRoutes(String pastRoute, String newRoute, Integer number){
+       System.out.println("+++++++ACTUAL ROUTE++++++++++++");
+       System.out.println(this.getRoute());
+
        for(int i = 0; i < this.files.size(); i++){
             this.files.get(i).setRoute((this.files.get(i).getRoute()).replace(pastRoute, newRoute));
        }
        for(int i = 0; i < this.directories.size(); i++){
-        //System.out.println("+++++++++++++++++++");
+        System.out.println("+++++++++NEW ROUTES++++++++++");
         this.directories.get(i).setRoute((this.directories.get(i).getRoute()).replace(pastRoute, newRoute + this.getName() + "/"));
         this.directories.get(i).UpdateRoutes(pastRoute, newRoute, 0);
-        //System.out.println(this.directories.get(i).getRoute());
+        System.out.println(this.directories.get(i).getRoute());
         }
         if (number == 1){
+            System.out.println("+++++++FINAL ROUTE++++++++++++");
             this.setRoute((this.route).replace(pastRoute, newRoute) + this.getName() + "/");
+            System.out.println(this.getRoute());
         }
    }
    
