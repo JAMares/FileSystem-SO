@@ -156,11 +156,13 @@ public class FileSystem {
     public Files findFileRoute(ArrayList<String> roadmap){
         roadmap.remove(0);
         Directory road = root;
+        System.out.println(roadmap.size());
         while(!roadmap.isEmpty()){
             if(roadmap.size() == 1){
                 for(int pos = 0; pos < road.getFiles().size(); pos++){
                     Files file = road.getFiles().get(pos);
-                    if(file.getName().equals(roadmap.get(0))){
+                    String name = file.getName() + file.getExtent();
+                    if(name.equals(roadmap.get(0))){
                         return file;
                     }
                 }
@@ -230,30 +232,51 @@ public class FileSystem {
         ArrayList<String> originRoad = parserRoute(routeOrigin);
         ArrayList<String> goalRoad = parserRoute(routeGoal);
         
+        System.out.println("Hizo el parseo");
+        
         int originSize = originRoad.size();
         int goalSize = goalRoad.size();
         Directory tmpDir = current;
+        
             
         if(!isDir){
-            Files old = findFileRoute(originRoad);
+            ArrayList<String> copyRoad = new ArrayList<>();
+            copyRoad.addAll(originRoad);
+            Files old = findFileRoute(copyRoad);
+            
+            String[] oldName = goalRoad.get(goalSize-1).split("\\.");
+            String newName = oldName[0];
+            goalRoad.remove(goalSize-1);
+            
             if(sameRoute(originRoad, goalRoad)){//Rename
-                String newName = goalRoad.get(goalSize-1);
-                goalRoad.remove(goalSize-1);
-                this.current = findDirRoute(goalRoad);
-                createFile(newName, old.getExtent(), old.getContent());
-                this.current = tmpDir;
+                System.out.println("Entro en File/Rename");
+                
+                if(goalRoad.size() > 1){
+                    this.current = findDirRoute(goalRoad);
+                    createFile(newName, old.getExtent(), old.getContent());
+                    this.current = tmpDir;
+                }
+                else {
+                    createFile(newName, old.getExtent(), old.getContent());
+                }
+                
             } 
             else {
+                System.out.println("Entro en File/Move");
                 this.current = findDirRoute(goalRoad);
                 createFile(old.getName(), old.getExtent(), old.getContent());
                 originRoad.remove(originSize-1);
                 this.current = findDirRoute(originRoad);
                 ReMove(old.getName(), false);
-                this.current = tmpDir;
+                this.current = tmpDir;   
             } 
         }
         else{
-            Directory dirOrigin = findDirRoute(originRoad);
+            ArrayList<String> copyRoad = new ArrayList<>();
+            copyRoad.addAll(originRoad);
+            
+            System.out.println("Entro en Dir/Move");
+            Directory dirOrigin = findDirRoute( copyRoad);
             Directory dirGoal = findDirRoute(goalRoad);
             dirGoal.addDirectory(dirOrigin);
             String oldDir = originRoad.get(originSize-1);
