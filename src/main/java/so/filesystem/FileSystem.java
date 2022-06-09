@@ -268,7 +268,7 @@ public class FileSystem {
                 createFile(old.getName(), old.getExtent(), old.getContent());
                 originRoad.remove(originSize-1);
                 this.current = findDirRoute(originRoad);
-                ReMove(old.getName(), false);
+                //ReMove(old.getName(), false);
                 this.current = tmpDir;   
             } 
         }
@@ -285,7 +285,7 @@ public class FileSystem {
             String oldDir = originRoad.get(originSize-1);
             originRoad.remove(originSize-1);
             this.current = findDirRoute(originRoad);
-            ReMove(oldDir, true);
+            //ReMove(oldDir, true);
             this.current = tmpDir;
         }
         
