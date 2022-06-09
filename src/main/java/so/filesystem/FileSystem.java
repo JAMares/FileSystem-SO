@@ -278,6 +278,8 @@ public class FileSystem {
             System.out.println("Entro en Dir/Move");
             Directory dirOrigin = findDirRoute( copyRoad);
             Directory dirGoal = findDirRoute(goalRoad);
+            dirOrigin.UpdateRoutes(dirOrigin.getRoute(),dirGoal.getRoute(),1);
+            //dirOrigin.setRoute(dirGoal.getRoute()+dirOrigin.getName()+"/");
             dirGoal.addDirectory(dirOrigin);
             String oldDir = originRoad.get(originSize-1);
             originRoad.remove(originSize-1);
