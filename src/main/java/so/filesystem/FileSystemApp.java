@@ -862,6 +862,7 @@ public class FileSystemApp extends javax.swing.JFrame {
                 this.fileOpenDialog.setTitle(file.toString());
                 this.fileOpenText.setText(file.getContent());
                 this.fileOpenDialog.setVisible(true);
+                this.refreshView();
             }
             if(this.jList1.getSelectedValue() instanceof Directory dir){
                 this.fs.changeMainDir(dir.getName());
@@ -878,6 +879,7 @@ public class FileSystemApp extends javax.swing.JFrame {
                     this.fileOpenDialog.setTitle(file.toString());
                     this.fileOpenText.setText(file.getContent());
                     this.fileOpenDialog.setVisible(true);
+                    this.refreshView();
                 }
             }
         }
@@ -927,7 +929,6 @@ public class FileSystemApp extends javax.swing.JFrame {
                 this.filePropertiesSizeText.setText(Integer.toString(file.getName().length()));
                 this.filePropertiesCreatedText.setText(creationString);
                 this.filePropertiesModifiedText.setText(modificationString);
-                
                 this.filePropertiesDialog.setVisible(true);
             }
         }
@@ -1015,7 +1016,10 @@ public class FileSystemApp extends javax.swing.JFrame {
     private void findBtnOKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_findBtnOKActionPerformed
         // TODO add your handling code here:
         if(!this.findTextField.getText().isEmpty()){
-            this.fs.FindRouteList(this.findTextField.getText());
+            this.findResultsArea.setText("");
+            for(String s : this.fs.FindRouteList(this.findTextField.getText())){
+                this.findResultsArea.append(s+"\n");
+            }
         }
     }//GEN-LAST:event_findBtnOKActionPerformed
 
