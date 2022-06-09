@@ -102,6 +102,29 @@ public class FileSystemApp extends javax.swing.JFrame {
         jLabel9 = new javax.swing.JLabel();
         moveBtn = new javax.swing.JButton();
         moveCancelBtn = new javax.swing.JButton();
+        findDialog = new javax.swing.JDialog();
+        findTextField = new javax.swing.JTextField();
+        jLabel10 = new javax.swing.JLabel();
+        findBtnOK = new javax.swing.JButton();
+        findBtnCancel = new javax.swing.JButton();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        findResultsArea = new javax.swing.JTextArea();
+        jLabel11 = new javax.swing.JLabel();
+        modifyDialog = new javax.swing.JDialog();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        modifyTextArea = new javax.swing.JTextArea();
+        modifySaveBtn = new javax.swing.JButton();
+        modifyCancelBtn = new javax.swing.JButton();
+        jLabel12 = new javax.swing.JLabel();
+        copyDialog = new javax.swing.JDialog();
+        copyAFilePath = new javax.swing.JTextField();
+        jLabel13 = new javax.swing.JLabel();
+        copyBFilePath = new javax.swing.JTextField();
+        jLabel14 = new javax.swing.JLabel();
+        copyTypeCombo = new javax.swing.JComboBox<>();
+        jLabel15 = new javax.swing.JLabel();
+        copyOKBtn = new javax.swing.JButton();
+        copyCancelBtn = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTree1 = new javax.swing.JTree();
         jButton1 = new javax.swing.JButton();
@@ -114,6 +137,8 @@ public class FileSystemApp extends javax.swing.JFrame {
         jButton5 = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
         jButton7 = new javax.swing.JButton();
+        jButton8 = new javax.swing.JButton();
+        jButton9 = new javax.swing.JButton();
 
         dirInputDialog.setTitle("Input directory name:");
         dirInputDialog.setAlwaysOnTop(true);
@@ -425,6 +450,203 @@ public class FileSystemApp extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        findDialog.setTitle("Find directory or file routes");
+        findDialog.setBounds(new java.awt.Rectangle(10, 10, 400, 400));
+
+        jLabel10.setText("Name");
+
+        findBtnOK.setText("Find");
+        findBtnOK.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                findBtnOKActionPerformed(evt);
+            }
+        });
+
+        findBtnCancel.setText("Cancel");
+        findBtnCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                findBtnCancelActionPerformed(evt);
+            }
+        });
+
+        findResultsArea.setEditable(false);
+        findResultsArea.setColumns(20);
+        findResultsArea.setRows(5);
+        jScrollPane4.setViewportView(findResultsArea);
+
+        jLabel11.setText("Results");
+
+        javax.swing.GroupLayout findDialogLayout = new javax.swing.GroupLayout(findDialog.getContentPane());
+        findDialog.getContentPane().setLayout(findDialogLayout);
+        findDialogLayout.setHorizontalGroup(
+            findDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(findDialogLayout.createSequentialGroup()
+                .addGroup(findDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(findDialogLayout.createSequentialGroup()
+                        .addGap(43, 43, 43)
+                        .addGroup(findDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jScrollPane4)
+                            .addGroup(findDialogLayout.createSequentialGroup()
+                                .addComponent(jLabel10)
+                                .addGap(18, 18, 18)
+                                .addComponent(findTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(findDialogLayout.createSequentialGroup()
+                                .addComponent(findBtnOK, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(findBtnCancel))))
+                    .addGroup(findDialogLayout.createSequentialGroup()
+                        .addGap(174, 174, 174)
+                        .addComponent(jLabel11)))
+                .addContainerGap(52, Short.MAX_VALUE))
+        );
+        findDialogLayout.setVerticalGroup(
+            findDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(findDialogLayout.createSequentialGroup()
+                .addGap(42, 42, 42)
+                .addGroup(findDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(findTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel10))
+                .addGap(28, 28, 28)
+                .addComponent(jLabel11)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(findDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(findBtnOK)
+                    .addComponent(findBtnCancel))
+                .addContainerGap(34, Short.MAX_VALUE))
+        );
+
+        modifyDialog.setBounds(new java.awt.Rectangle(10, 10, 400, 300));
+
+        modifyTextArea.setColumns(20);
+        modifyTextArea.setRows(5);
+        jScrollPane5.setViewportView(modifyTextArea);
+
+        modifySaveBtn.setText("Save");
+        modifySaveBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                modifySaveBtnActionPerformed(evt);
+            }
+        });
+
+        modifyCancelBtn.setText("Cancel");
+        modifyCancelBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                modifyCancelBtnActionPerformed(evt);
+            }
+        });
+
+        jLabel12.setText("Contents");
+
+        javax.swing.GroupLayout modifyDialogLayout = new javax.swing.GroupLayout(modifyDialog.getContentPane());
+        modifyDialog.getContentPane().setLayout(modifyDialogLayout);
+        modifyDialogLayout.setHorizontalGroup(
+            modifyDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(modifyDialogLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 376, Short.MAX_VALUE)
+                .addContainerGap())
+            .addGroup(modifyDialogLayout.createSequentialGroup()
+                .addGap(42, 42, 42)
+                .addComponent(modifySaveBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(modifyCancelBtn)
+                .addGap(45, 45, 45))
+            .addGroup(modifyDialogLayout.createSequentialGroup()
+                .addGap(176, 176, 176)
+                .addComponent(jLabel12)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        modifyDialogLayout.setVerticalGroup(
+            modifyDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(modifyDialogLayout.createSequentialGroup()
+                .addGap(38, 38, 38)
+                .addComponent(jLabel12)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 172, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addGroup(modifyDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(modifySaveBtn)
+                    .addComponent(modifyCancelBtn))
+                .addContainerGap())
+        );
+
+        copyDialog.setBounds(new java.awt.Rectangle(10, 10, 400, 300));
+
+        copyAFilePath.setEditable(false);
+        copyAFilePath.setText("jTextField2");
+
+        jLabel13.setText("Current File Path");
+
+        jLabel14.setText("Copy File Path");
+
+        copyTypeCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Real", "Virtual" }));
+
+        jLabel15.setText("Type of Copy");
+
+        copyOKBtn.setText("Copy");
+        copyOKBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                copyOKBtnActionPerformed(evt);
+            }
+        });
+
+        copyCancelBtn.setText("Cancel");
+        copyCancelBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                copyCancelBtnActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout copyDialogLayout = new javax.swing.GroupLayout(copyDialog.getContentPane());
+        copyDialog.getContentPane().setLayout(copyDialogLayout);
+        copyDialogLayout.setHorizontalGroup(
+            copyDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, copyDialogLayout.createSequentialGroup()
+                .addGroup(copyDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(copyDialogLayout.createSequentialGroup()
+                        .addGap(44, 44, 44)
+                        .addComponent(jLabel13)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, copyDialogLayout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(copyDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel14)
+                            .addGroup(copyDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(copyOKBtn, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel15, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addGap(18, 18, 18)))
+                .addGroup(copyDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(copyDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(copyTypeCombo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(copyBFilePath)
+                        .addComponent(copyAFilePath, javax.swing.GroupLayout.DEFAULT_SIZE, 239, Short.MAX_VALUE))
+                    .addComponent(copyCancelBtn, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addGap(44, 44, 44))
+        );
+        copyDialogLayout.setVerticalGroup(
+            copyDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(copyDialogLayout.createSequentialGroup()
+                .addGap(36, 36, 36)
+                .addGroup(copyDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(copyAFilePath, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel13))
+                .addGap(18, 18, 18)
+                .addGroup(copyDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(copyBFilePath, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel14))
+                .addGap(18, 18, 18)
+                .addGroup(copyDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(copyTypeCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel15))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 116, Short.MAX_VALUE)
+                .addGroup(copyDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(copyOKBtn)
+                    .addComponent(copyCancelBtn))
+                .addGap(21, 21, 21))
+        );
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jTree1.setCellRenderer(new FileSystemTreeRenderer());
@@ -492,12 +714,33 @@ public class FileSystemApp extends javax.swing.JFrame {
 
         jButton6.setText("Copy");
         jButton6.setFocusable(false);
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
 
         jButton7.setText("Move");
         jButton7.setFocusable(false);
         jButton7.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton7ActionPerformed(evt);
+            }
+        });
+
+        jButton8.setText("Modify");
+        jButton8.setFocusable(false);
+        jButton8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton8ActionPerformed(evt);
+            }
+        });
+
+        jButton9.setText("Find");
+        jButton9.setFocusable(false);
+        jButton9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton9ActionPerformed(evt);
             }
         });
 
@@ -527,9 +770,13 @@ public class FileSystemApp extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButton4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton3)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jButton8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton5)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButton9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -554,7 +801,9 @@ public class FileSystemApp extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton6)
-                    .addComponent(jButton7))
+                    .addComponent(jButton7)
+                    .addComponent(jButton8)
+                    .addComponent(jButton9))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -613,6 +862,7 @@ public class FileSystemApp extends javax.swing.JFrame {
                 this.fileOpenDialog.setTitle(file.toString());
                 this.fileOpenText.setText(file.getContent());
                 this.fileOpenDialog.setVisible(true);
+                this.refreshView();
             }
             if(this.jList1.getSelectedValue() instanceof Directory dir){
                 this.fs.changeMainDir(dir.getName());
@@ -629,6 +879,7 @@ public class FileSystemApp extends javax.swing.JFrame {
                     this.fileOpenDialog.setTitle(file.toString());
                     this.fileOpenText.setText(file.getContent());
                     this.fileOpenDialog.setVisible(true);
+                    this.refreshView();
                 }
             }
         }
@@ -678,7 +929,6 @@ public class FileSystemApp extends javax.swing.JFrame {
                 this.filePropertiesSizeText.setText(Integer.toString(file.getName().length()));
                 this.filePropertiesCreatedText.setText(creationString);
                 this.filePropertiesModifiedText.setText(modificationString);
-                
                 this.filePropertiesDialog.setVisible(true);
             }
         }
@@ -758,6 +1008,94 @@ public class FileSystemApp extends javax.swing.JFrame {
         this.moveItemDialog.setVisible(false);
     }//GEN-LAST:event_moveCancelBtnActionPerformed
 
+    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
+        // TODO add your handling code here:
+        this.findDialog.setVisible(true);
+    }//GEN-LAST:event_jButton9ActionPerformed
+
+    private void findBtnOKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_findBtnOKActionPerformed
+        // TODO add your handling code here:
+        if(!this.findTextField.getText().isEmpty()){
+            this.findResultsArea.setText("");
+            for(String s : this.fs.FindRouteList(this.findTextField.getText())){
+                this.findResultsArea.append(s+"\n");
+            }
+        }
+    }//GEN-LAST:event_findBtnOKActionPerformed
+
+    private void findBtnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_findBtnCancelActionPerformed
+        // TODO add your handling code here:
+        this.findTextField.setText("");
+        this.findDialog.setVisible(false);
+    }//GEN-LAST:event_findBtnCancelActionPerformed
+
+    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+        // TODO add your handling code here:
+        if(this.jList1.isFocusOwner()){
+            if(this.jList1.getSelectedValue() instanceof Files file){
+                this.modifyTextArea.setText(file.getContent());
+                this.modifyDialog.setTitle("Modifying "+file.toString());
+                this.modifyDialog.setVisible(true);
+            }
+        }
+        if(this.jTree1.isFocusOwner()){
+            if(this.jTree1.getLastSelectedPathComponent() instanceof DefaultMutableTreeNode tNode){
+                if(tNode.getUserObject() instanceof Files file){
+                    this.modifyTextArea.setText(file.getContent());
+                    this.modifyDialog.setTitle("Modifying "+file.toString());
+                    this.modifyDialog.setVisible(true);
+                }
+            }
+        }
+        
+    }//GEN-LAST:event_jButton8ActionPerformed
+
+    private void modifySaveBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modifySaveBtnActionPerformed
+        // TODO add your handling code here:
+        this.modifyDialog.setVisible(false);
+    }//GEN-LAST:event_modifySaveBtnActionPerformed
+
+    private void modifyCancelBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modifyCancelBtnActionPerformed
+        // TODO add your handling code here:
+        this.modifyDialog.setVisible(false);
+    }//GEN-LAST:event_modifyCancelBtnActionPerformed
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        // TODO add your handling code here:
+        if(this.jList1.isFocusOwner()){
+            if(this.jList1.getSelectedValue() instanceof Files file){
+                this.modifyDialog.setTitle("Copying "+file.toString());
+                this.copyAFilePath.setText(file.getRoute());
+                this.copyBFilePath.setText("");
+                this.copyDialog.setVisible(true);
+            }
+        }
+        if(this.jTree1.isFocusOwner()){
+            if(this.jTree1.getLastSelectedPathComponent() instanceof DefaultMutableTreeNode tNode){
+                if(tNode.getUserObject() instanceof Files file){
+                    this.modifyDialog.setTitle("Copying "+file.toString());
+                    this.copyAFilePath.setText(file.getRoute());
+                    this.copyBFilePath.setText("");
+                    this.copyDialog.setVisible(true);
+                }
+            }
+        }
+        
+    }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void copyOKBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_copyOKBtnActionPerformed
+        // TODO add your handling code here:
+        System.out.println(this.copyAFilePath.getText());
+        System.out.println(this.copyBFilePath.getText());
+        System.out.println(this.copyTypeCombo.getSelectedItem());
+        this.copyDialog.setVisible(false);
+    }//GEN-LAST:event_copyOKBtnActionPerformed
+
+    private void copyCancelBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_copyCancelBtnActionPerformed
+        // TODO add your handling code here:
+        this.copyDialog.setVisible(false);
+    }//GEN-LAST:event_copyCancelBtnActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -797,6 +1135,12 @@ public class FileSystemApp extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField copyAFilePath;
+    private javax.swing.JTextField copyBFilePath;
+    private javax.swing.JButton copyCancelBtn;
+    private javax.swing.JDialog copyDialog;
+    private javax.swing.JButton copyOKBtn;
+    private javax.swing.JComboBox<String> copyTypeCombo;
     private javax.swing.JButton dirInputButtonCancel;
     private javax.swing.JButton dirInputButtonOk;
     private javax.swing.JDialog dirInputDialog;
@@ -816,6 +1160,11 @@ public class FileSystemApp extends javax.swing.JFrame {
     private javax.swing.JTextField filePropertiesModifiedText;
     private javax.swing.JTextField filePropertiesNameText;
     private javax.swing.JTextField filePropertiesSizeText;
+    private javax.swing.JButton findBtnCancel;
+    private javax.swing.JButton findBtnOK;
+    private javax.swing.JDialog findDialog;
+    private javax.swing.JTextArea findResultsArea;
+    private javax.swing.JTextField findTextField;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
@@ -823,7 +1172,15 @@ public class FileSystemApp extends javax.swing.JFrame {
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
+    private javax.swing.JButton jButton8;
+    private javax.swing.JButton jButton9;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -836,8 +1193,14 @@ public class FileSystemApp extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTree jTree1;
+    private javax.swing.JButton modifyCancelBtn;
+    private javax.swing.JDialog modifyDialog;
+    private javax.swing.JButton modifySaveBtn;
+    private javax.swing.JTextArea modifyTextArea;
     private javax.swing.JButton moveBtn;
     private javax.swing.JButton moveCancelBtn;
     private javax.swing.JTextField moveCurrentPathText;

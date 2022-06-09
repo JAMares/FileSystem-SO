@@ -56,6 +56,7 @@ public class Directory {
         }
         for (int i = 0; i < this.directories.size(); i++){
             System.out.println(this.directories.get(i).getName());
+            this.directories.get(i).viewDirectories(); //View directories of directories
         }
     }
 
@@ -105,7 +106,14 @@ public class Directory {
 
     //Add directories
     public void addDirectory(Directory directory){
+        //System.out.println("----------VIEW-----------");
+        //directory.viewDirectories();
         this.directories.add(directory);
+
+        System.out.println("----------FOUND DIRECTORY-----------");
+        //Directory n = this.directories.get(directories.size()-1);
+        //n.viewDirectories();
+        this.viewDirectories();
     }
 
     //Add files
@@ -151,7 +159,6 @@ public class Directory {
        return rutas;
    }
    
-   
    //Remove directory
    public void RemoveDir(){
        if(!files.isEmpty()){
@@ -162,6 +169,20 @@ public class Directory {
                directories.get(posDir).RemoveDir();
            }
            directories.removeAll(directories);
+       }
+   }
+
+   //Updates all routes
+   public void UpdateRoutes(String pastRoute, String newRoute, Integer number){
+       for(int i = 0; i < this.files.size(); i++){
+           this.files.get(i).setRoute((this.files.get(i).getRoute()).replace(pastRoute, newRoute));
+       }
+       for(int i = 0; i < this.directories.size(); i++){
+           this.directories.get(i).setRoute((this.directories.get(i).getRoute()).replace(pastRoute, newRoute + this.getName() + "/"));
+           this.directories.get(i).UpdateRoutes(pastRoute, newRoute, 0);
+       }
+       if (number == 1){
+           this.setRoute((this.route).replace(pastRoute, newRoute) + this.getName() + "/");
        }
    }
    
