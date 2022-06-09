@@ -254,21 +254,22 @@ public class FileSystem {
                 
                 if(goalRoad.size() > 1){
                     this.current = findDirRoute(goalRoad);
-                    createFile(newName, old.getExtent(), old.getContent());
+                    old.setName(newName);
+                    this.current.addFiles(old);
                     this.current = tmpDir;
                 }
                 else {
-                    createFile(newName, old.getExtent(), old.getContent());
+                    old.setName(newName);
+                    this.current.addFiles(old);
                 }
                 
             } 
             else {
                 System.out.println("Entro en File/Move");
                 this.current = findDirRoute(goalRoad);
-                createFile(old.getName(), old.getExtent(), old.getContent());
+                this.current.addFiles(old);
                 originRoad.remove(originSize-1);
                 this.current = findDirRoute(originRoad);
-                //ReMove(old.getName(), false);
                 this.current = tmpDir;   
             } 
         }
@@ -281,9 +282,7 @@ public class FileSystem {
             Directory dirGoal = findDirRoute(goalRoad);
             dirOrigin.UpdateRoutes(dirOrigin.getRoute(),dirGoal.getRoute());
             dirGoal.addDirectory(dirOrigin);
-            String oldDir = originRoad.get(originSize-1);
             this.current = findDirRoute(originRoad);
-            //ReMove(oldDir, true);
             this.current = tmpDir;
         }
         
