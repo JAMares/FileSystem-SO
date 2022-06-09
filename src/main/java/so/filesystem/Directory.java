@@ -74,7 +74,7 @@ public class Directory {
     //Get directory
     public Directory findDir(String name){
         for (int i = 0; i < this.directories.size(); i++){
-            if (this.directories.get(i).getName() == name);
+            if (this.directories.get(i).getName().equals(name))
                 return this.directories.get(i);
         }
         return null;
