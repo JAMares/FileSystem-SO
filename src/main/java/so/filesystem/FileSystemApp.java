@@ -187,7 +187,7 @@ public class FileSystemApp extends javax.swing.JFrame {
                 .addContainerGap(119, Short.MAX_VALUE))
         );
 
-        fileInputDialog.setTitle("Input directory name:");
+        fileInputDialog.setTitle("Input file name:");
         fileInputDialog.setAlwaysOnTop(true);
         fileInputDialog.setBounds(new java.awt.Rectangle(10, 10, 400, 300));
 
@@ -844,6 +844,7 @@ public class FileSystemApp extends javax.swing.JFrame {
 
     private void fileButtonCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fileButtonCancelActionPerformed
         // TODO add your handling code here:
+        this.fileInputDialog.setVisible(false);
     }//GEN-LAST:event_fileButtonCancelActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
@@ -929,7 +930,7 @@ public class FileSystemApp extends javax.swing.JFrame {
                 String modificationString = modification.format(formatM);
                 this.filePropertiesDialog.setTitle("Properties of "+file.toString());
                 this.filePropertiesNameText.setText(file.toString());
-                this.filePropertiesSizeText.setText(Integer.toString(file.getName().length()));
+                this.filePropertiesSizeText.setText(Integer.toString(file.getContent().length()));
                 this.filePropertiesCreatedText.setText(creationString);
                 this.filePropertiesModifiedText.setText(modificationString);
                 this.filePropertiesDialog.setVisible(true);
@@ -946,7 +947,7 @@ public class FileSystemApp extends javax.swing.JFrame {
                     String modificationString = modification.format(formatM);
                     this.filePropertiesDialog.setTitle("Properties of "+file.toString());
                     this.filePropertiesNameText.setText(file.toString());
-                    this.filePropertiesSizeText.setText(Integer.toString(file.getName().length()));
+                    this.filePropertiesSizeText.setText(Integer.toString(file.getContent().length()));
                     this.filePropertiesCreatedText.setText(creationString);
                     this.filePropertiesModifiedText.setText(modificationString);
                     this.filePropertiesDialog.setVisible(true);
