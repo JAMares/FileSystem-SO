@@ -136,13 +136,14 @@ public class FileSystem {
     }
     
     //Find route list
-    public void FindRouteList(String target){
+    public ArrayList<String> FindRouteList(String target){
         ArrayList<String> directions = new ArrayList<>();
         directions.addAll(root.Find(target));
         System.out.println("Rutas encontradas"); //Mensaje de prueba
         for(int pos = 0; pos < directions.size(); pos++){
             System.out.println(directions.get(pos));
         }
+        return directions;
     }
     
     //Parse the route to get the roadmap
