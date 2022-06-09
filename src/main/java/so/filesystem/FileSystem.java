@@ -280,10 +280,8 @@ public class FileSystem {
             Directory dirOrigin = findDirRoute( copyRoad);
             Directory dirGoal = findDirRoute(goalRoad);
             dirOrigin.UpdateRoutes(dirOrigin.getRoute(),dirGoal.getRoute());
-            //dirOrigin.setRoute(dirGoal.getRoute()+dirOrigin.getName()+"/");
             dirGoal.addDirectory(dirOrigin);
             String oldDir = originRoad.get(originSize-1);
-//            originRoad.remove(originSize-1);
             this.current = findDirRoute(originRoad);
             ReMove(oldDir, true);
             this.current = tmpDir;
