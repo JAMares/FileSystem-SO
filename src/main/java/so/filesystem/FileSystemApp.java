@@ -23,6 +23,9 @@ import javax.swing.tree.DefaultTreeModel;
  */
 public class FileSystemApp extends javax.swing.JFrame {
     public FileSystem fs;
+    private Directory dirTmp;
+    private Files fileTmp;
+    
 
     /**
      * Creates new form FileSystemApp
@@ -961,12 +964,14 @@ public class FileSystemApp extends javax.swing.JFrame {
         // TODO add your handling code here:
         if(this.jList1.isFocusOwner()){
             if(this.jList1.getSelectedValue() instanceof Files file){
+                this.fileTmp = file;
                 this.moveItemDialog.setTitle("Moving File: "+file.toString());
                 this.moveCurrentPathText.setText(file.getRoute());
                 this.moveTargetPathText.setText(file.getRoute());
                 this.moveItemDialog.setVisible(true);
             }
             if(this.jList1.getSelectedValue() instanceof Directory dir){
+                this.dirTmp = dir;
                 this.moveItemDialog.setTitle("Moving Directory: "+dir.toString());
                 this.moveCurrentPathText.setText(dir.getRoute());
                 this.moveTargetPathText.setText(dir.getRoute());
@@ -976,12 +981,14 @@ public class FileSystemApp extends javax.swing.JFrame {
         if(this.jTree1.isFocusOwner()){
             if(this.jTree1.getLastSelectedPathComponent() instanceof DefaultMutableTreeNode tNode){
                 if(tNode.getUserObject() instanceof Directory dir){
+                    this.dirTmp = dir;
                     this.moveItemDialog.setTitle("Moving Directory: "+dir.toString());
                     this.moveCurrentPathText.setText(dir.getRoute());
                     this.moveTargetPathText.setText(dir.getRoute());
                     this.moveItemDialog.setVisible(true);
                 }
                 if(tNode.getUserObject() instanceof Files file){
+                    this.fileTmp = file;
                     this.moveItemDialog.setTitle("Moving File: "+file.toString());
                     this.moveCurrentPathText.setText(file.getRoute());
                     this.moveTargetPathText.setText(file.getRoute());
@@ -996,15 +1003,21 @@ public class FileSystemApp extends javax.swing.JFrame {
         this.moveItemDialog.setVisible(false);
         if(this.moveItemDialog.getTitle().contains("Moving Directory")){
             this.fs.Move(this.moveCurrentPathText.getText(), this.moveTargetPathText.getText(), true);
+            this.fs.getCurrent().getDirectories().remove(this.dirTmp);
+            this.dirTmp = null;
         }
         else{
             this.fs.Move(this.moveCurrentPathText.getText(), this.moveTargetPathText.getText(), false);
+            this.fs.getCurrent().getFiles().remove(this.fileTmp);
+            this.fileTmp = null;
         }
         this.refreshView();
     }//GEN-LAST:event_moveBtnActionPerformed
 
     private void moveCancelBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_moveCancelBtnActionPerformed
         // TODO add your handling code here:
+        this.fileTmp = null;
+        this.dirTmp = null;
         this.moveItemDialog.setVisible(false);
     }//GEN-LAST:event_moveCancelBtnActionPerformed
 
