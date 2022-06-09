@@ -51,7 +51,7 @@ public class Directory {
     //View directories
     public void viewDirectories(){
         if (this.directories.size() == 0){
-            System.out.println("Not directories found.");
+            System.out.println("Not directories found in " + this.getName());
             return;
         }
         for (int i = 0; i < this.directories.size(); i++){
@@ -183,8 +183,8 @@ public class Directory {
        for(int i = 0; i < this.directories.size(); i++){
         System.out.println("+++++++++NEW ROUTES++++++++++");
         this.directories.get(i).setRoute((this.directories.get(i).getRoute()).replace(pastRoute, newRoute + this.getName() + "/"));
-        this.directories.get(i).UpdateRoutes(pastRoute, newRoute, 0);
         System.out.println(this.directories.get(i).getRoute());
+        this.directories.get(i).UpdateRoutes(pastRoute, newRoute, 0);
         }
         if (number == 1){
             System.out.println("+++++++FINAL ROUTE++++++++++++");
