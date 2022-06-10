@@ -59,7 +59,7 @@ public class FileSystem {
     }
     
     //Creates Virtual Disk
-    public void createVD(Integer sectories, Integer sectorSize) throws IOException{
+    /*public void createVD(Integer sectories, Integer sectorSize) throws IOException{
         this.sectories = sectories;
         this.sectorSize = sectorSize;
         File disk = new File("disk.txt");
@@ -72,7 +72,7 @@ public class FileSystem {
             writer.close();
         } catch (Exception e) {
         }
-    }
+    }*/
 
     //Add new directories
     public void createDirectory(String name){
