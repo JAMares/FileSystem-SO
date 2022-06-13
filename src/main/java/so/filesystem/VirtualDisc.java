@@ -154,6 +154,7 @@ public class VirtualDisc {
         String contents = "0".repeat(this.sectorSize);
         ArrayList<Integer> indexes = new ArrayList<>();
         indexes = map.get(file);
+        file.setContent(newInsertion);
 
         if(peerSectors.size() == indexes.size()){
             //Insert in actual indexes

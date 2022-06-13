@@ -55,6 +55,7 @@ public class Files {
 
     public void setContent(String content) {
         this.content = content;
+        this.setModification(LocalDateTime.now());
     }
 
     public String getExtent() {
