@@ -1118,6 +1118,7 @@ public class FileSystemApp extends javax.swing.JFrame {
             if(this.jList1.getSelectedValue() instanceof Files file){
                 this.modifyTextArea.setText(file.getContent());
                 this.modifyDialog.setTitle("Modifying "+file.toString());
+                this.fileTmp = file;
                 this.modifyDialog.setVisible(true);
             }
         }
@@ -1126,6 +1127,7 @@ public class FileSystemApp extends javax.swing.JFrame {
                 if(tNode.getUserObject() instanceof Files file){
                     this.modifyTextArea.setText(file.getContent());
                     this.modifyDialog.setTitle("Modifying "+file.toString());
+                    this.fileTmp = file;
                     this.modifyDialog.setVisible(true);
                 }
             }
@@ -1135,11 +1137,14 @@ public class FileSystemApp extends javax.swing.JFrame {
 
     private void modifySaveBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modifySaveBtnActionPerformed
         // TODO add your handling code here:
+        this.disc.replaceData(this.fileTmp, this.modifyTextArea.getText());
+        this.fileTmp = null;
         this.modifyDialog.setVisible(false);
     }//GEN-LAST:event_modifySaveBtnActionPerformed
 
     private void modifyCancelBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modifyCancelBtnActionPerformed
         // TODO add your handling code here:
+        this.fileTmp = null;
         this.modifyDialog.setVisible(false);
     }//GEN-LAST:event_modifyCancelBtnActionPerformed
 
