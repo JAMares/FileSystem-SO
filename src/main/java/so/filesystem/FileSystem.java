@@ -81,9 +81,10 @@ public class FileSystem {
     }
 
     //Add new files
-    public void createFile(String name, String extension, String content){
+    public Files createFile(String name, String extension, String content){
         Files newFile = new Files(name,content,extension, current.getRoute() + name + extension);
         current.addFiles(newFile);
+        return newFile;
     }
 
     //Changes current directory

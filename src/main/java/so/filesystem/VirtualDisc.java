@@ -9,6 +9,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  *
@@ -19,12 +21,14 @@ public class VirtualDisc {
     private Integer sectorSize;
     private ArrayList<String> data;
     private Integer empty; 
+    Map<Files, ArrayList<Integer>> map;
     
     public VirtualDisc(Integer sectories, Integer sectorSize) throws IOException{
         this.sectories = sectories;
         this.sectorSize = sectorSize;
         this.empty = sectories;
-        this.data = new ArrayList();
+        this.data = new ArrayList<>();
+        this.map = new HashMap<Files, ArrayList<Integer>>();
         File disk = new File("disk.txt");
         try {
             disk.createNewFile();
@@ -41,10 +45,9 @@ public class VirtualDisc {
         } catch (Exception e) {
         }
     }
-    
-    public void addContent(String content){
+
+    public ArrayList<String> classify(String content){
         ArrayList<String> peerSectors = new ArrayList<>();
-        String contents = "0".repeat(this.sectorSize);
         while (content != ""){
             if(this.sectorSize < content.length()){
                 peerSectors.add(content.substring(0,this.sectorSize));
@@ -55,30 +58,50 @@ public class VirtualDisc {
                  content = "";
             }
         }
+        return peerSectors;
+    }
+    
+    public void addContent(String content, Files file){
+        ArrayList<String> peerSectors = new ArrayList<>();
+        peerSectors = classify(content);
+        String contents = "0".repeat(this.sectorSize);
+        ArrayList<Integer> indexes = new ArrayList<>();
 
         if(this.empty >= peerSectors.size()){
             this.empty = this.empty - peerSectors.size();
+
             for(int i = 0; i < this.data.size(); i++){
                 if(this.data.get(i).equals(contents)){
                     if(peerSectors.get(0).length() == this.sectorSize){
                         this.data.set(i, peerSectors.get(0));
-                        if(peerSectors.size() == 1){
+                        indexes.add(i);
+
+                        if(peerSectors.size() == 1){ //last sector
                             break;
                         } else{
-                            peerSectors.remove(0);
+                            peerSectors.remove(0); //remove from array
                         }
                     } else{
                         this.data.set(i, peerSectors.get(0) + "0".repeat(this.sectorSize- peerSectors.get(0).length()));
+                        indexes.add(i);
                         break;
                     }
                 }
             }
+
         } else{
-            System.out.println("DISK IS FILL");
+            System.out.println("DISK IS FULL");
+            return;
         }
+        this.map.put(file, indexes);
         this.writeDisk();
+        //this.deleteFile(file);
+        //this.replaceData(file,"11111111");
+        //System.out.println("****************");
+        //System.out.println(map.get(file));
     }
     
+    //writes in disk
     public void writeDisk(){
         File disk = new File("disk.txt");
         try {
@@ -90,11 +113,114 @@ public class VirtualDisc {
             writer.close();
         } catch (Exception e) {
         }
+        //viewContent();
     }
     
+    //View Virtual disk content
     public void viewContent(){
+        System.out.println("Content: ");
         for(int i = 0; i < this.data.size(); i++){
             System.out.println(this.data.get(i));
         }
     }
+
+    public void replaceSameSize(ArrayList<String> peerSectors, ArrayList<Integer> indexes, Files file){
+        int count = 0;
+        while(indexes.size() != count){
+            if(peerSectors.get(0).length() == this.sectorSize){
+                this.data.set(indexes.get(count), peerSectors.get(0));
+                if(peerSectors.size() == 1){
+                    break;
+                }
+                peerSectors.remove(0);
+            }
+            else{
+                this.data.set(indexes.get(count), peerSectors.get(0) + "0".repeat(this.sectorSize- peerSectors.get(0).length()));
+                break;
+            }
+            count = count + 1;
+        }
+        //System.out.println("ES EL COUNT " + count + " ES EL SIZE" + indexes.size());
+        //this.map.replace(file, indexes);
+        //System.out.println("++++++++");
+        //System.out.println(map.get(file));
+        //this.viewContent();
+    }
+
+    //Modify File
+    public void replaceData(Files file, String newInsertion){
+        ArrayList<String> peerSectors = new ArrayList<>();
+        peerSectors = classify(newInsertion);
+        String contents = "0".repeat(this.sectorSize);
+        ArrayList<Integer> indexes = new ArrayList<>();
+        indexes = map.get(file);
+
+        if(peerSectors.size() == indexes.size()){
+            //Insert in actual indexes
+            replaceSameSize(peerSectors, indexes, file);
+        }
+
+        else{
+            if(peerSectors.size() > indexes.size() && this.empty >= (peerSectors.size() - indexes.size())){
+                this.empty = this.empty - (peerSectors.size() - indexes.size());
+
+                //Insert in actual indexes
+                replaceSameSize(peerSectors, indexes, file);
+
+                //Find new indexes
+                for(int i = 0; i < this.data.size(); i++){
+                    if(this.data.get(i).equals(contents)){
+                        if(peerSectors.get(0).length() == this.sectorSize){
+                            this.data.set(i, peerSectors.get(0));
+                            indexes.add(i);
+
+                            if(peerSectors.size() == 1){ //last sector
+                                break;
+                            } else{
+                                peerSectors.remove(0); //remove from array
+                            }
+                        } else{
+                            this.data.set(i, peerSectors.get(0) + "0".repeat(this.sectorSize- peerSectors.get(0).length()));
+                            indexes.add(i);
+                            break;
+                        }
+                    }
+                }
+
+                this.map.replace(file, indexes);
+            }
+            else if(peerSectors.size() < indexes.size() && this.empty >= (peerSectors.size() - indexes.size())){
+                for(int i = indexes.size()-1; i+1 > peerSectors.size(); i--){
+                    data.set(indexes.get(i), contents);
+                    indexes.remove(i);
+                }
+                replaceSameSize(peerSectors, indexes, file);
+            }
+            else{
+                System.out.println("DISK IS FULL");
+                return;
+            }
+        }
+        //this.map.replace(file, indexes);
+        this.writeDisk();
+        //Files replaced = map.keySet().toArray()[0];
+    }
+
+    //Delete from disk
+    public void deleteFile(Files file){
+        String contents = "0".repeat(this.sectorSize);
+        ArrayList<Integer> indexes = new ArrayList<>();
+        indexes = this.map.get(file);
+        while(indexes.size() != 0){
+            data.set(indexes.get(0), contents);
+
+            if(indexes.size() == 1){
+                break;
+            }
+            indexes.remove(0);
+        }
+        this.map.remove(file);
+        this.writeDisk();
+    }
+    
 }

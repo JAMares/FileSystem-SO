@@ -905,8 +905,8 @@ public class FileSystemApp extends javax.swing.JFrame {
 
     private void fileButtonOkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fileButtonOkActionPerformed
         // TODO add your handling code here:
-        this.fs.createFile(this.fileNameInput.getText(), this.fileExtensionInput.getSelectedItem().toString(), this.fileContentInput.getText());
-        this.disc.addContent(this.fileContentInput.getText());
+        Files actualF = this.fs.createFile(this.fileNameInput.getText(), this.fileExtensionInput.getSelectedItem().toString(), this.fileContentInput.getText());
+        this.disc.addContent(this.fileContentInput.getText(),actualF);
         this.fileInputDialog.setVisible(false);
         this.refreshView();
     }//GEN-LAST:event_fileButtonOkActionPerformed
