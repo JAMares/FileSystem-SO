@@ -51,7 +51,7 @@ public class Directory {
     //View directories
     public void viewDirectories(){
         if (this.directories.size() == 0){
-            System.out.println("Not directories found.");
+            System.out.println("Not directories found in " + this.getName());
             return;
         }
         for (int i = 0; i < this.directories.size(); i++){
@@ -82,14 +82,15 @@ public class Directory {
     }
 
     //Get File
-    public void modifyFile(String name, String content){
+    public Files modifyFile(String name, String content){
         for (int i = 0; i < this.files.size(); i++){
             if (this.files.get(i).getName() == name);
             this.files.get(i).setContent(content);
             System.out.println("File modified");
-            return;
+            return this.files.get(i);
         }
         System.out.println("File not found");
+        return null;
     }
 
     //Get files
