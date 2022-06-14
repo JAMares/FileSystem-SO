@@ -1159,7 +1159,11 @@ public class FileSystemApp extends javax.swing.JFrame {
                 this.copyDialog.setVisible(true);
             }
             if(this.jList1.getSelectedValue() instanceof Directory dir){
-                
+                this.modifyDialog.setTitle("Copying Directory: "+dir.toString());
+                this.copyAFilePath.setText(dir.getRoute());
+                this.copyBFilePath.setText("");
+                this.dirTmp = dir;
+                this.copyDialog.setVisible(true);
             }
         }
         if(this.jTree1.isFocusOwner()){
@@ -1172,7 +1176,11 @@ public class FileSystemApp extends javax.swing.JFrame {
                     this.copyDialog.setVisible(true);
                 }
                 if(tNode.getUserObject() instanceof Directory dir){
-                    
+                    this.modifyDialog.setTitle("Copying Directory: "+dir.toString());
+                    this.copyAFilePath.setText(dir.getRoute());
+                    this.copyBFilePath.setText("");
+                    this.dirTmp = dir;
+                    this.copyDialog.setVisible(true);
                 }
             }
         }
@@ -1201,7 +1209,18 @@ public class FileSystemApp extends javax.swing.JFrame {
         }
         else{
             if(tmp!=null){
-                
+                if(this.copyTypeCombo.getSelectedItem()=="Virtual"){
+                    tmp.addDirectory(this.dirTmp);
+                }
+                else{
+                    this.dirTmp = this.fs.getCurrent();
+                    this.fs.setCurrent(tmp);
+                    // Copia real recursiva
+                    this.fs.setCurrent(this.dirTmp);
+                }
+            }
+            else{
+                System.out.println("Invalid route");
             }
         }
         this.fileTmp = null;
