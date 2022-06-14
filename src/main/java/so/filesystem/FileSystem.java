@@ -148,7 +148,7 @@ public class FileSystem {
     }
     
     //Parse the route to get the roadmap
-    private ArrayList<String> parserRoute(String route){
+    public ArrayList<String> parserRoute(String route){
         String[] dirs = route.split("/");
         ArrayList<String> road = new ArrayList<>(Arrays.asList(dirs));
         return road;
