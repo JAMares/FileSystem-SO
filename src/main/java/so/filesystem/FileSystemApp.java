@@ -26,6 +26,9 @@ public class FileSystemApp extends javax.swing.JFrame {
     private Directory dirTmp;
     private Files fileTmp;
     private VirtualDisc disc;
+    private String newDirFile;
+    private boolean isDir;
+    private Files ifDeleted;
     
 
     /**
@@ -130,6 +133,11 @@ public class FileSystemApp extends javax.swing.JFrame {
         jLabel16 = new javax.swing.JLabel();
         textSizes = new javax.swing.JTextField();
         jLabel17 = new javax.swing.JLabel();
+        FindDirectory = new javax.swing.JDialog();
+        jButton10 = new javax.swing.JButton();
+        jButton11 = new javax.swing.JButton();
+        jLabel18 = new javax.swing.JLabel();
+        jLabel19 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTree1 = new javax.swing.JTree();
         jButton1 = new javax.swing.JButton();
@@ -718,6 +726,61 @@ public class FileSystemApp extends javax.swing.JFrame {
                 .addGap(46, 46, 46))
         );
 
+        FindDirectory.setTitle("Directory or file already exists");
+        FindDirectory.setAlwaysOnTop(true);
+        FindDirectory.setMinimumSize(new java.awt.Dimension(385, 243));
+
+        jButton10.setText("Yes");
+        jButton10.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton10ActionPerformed(evt);
+            }
+        });
+
+        jButton11.setText("No");
+        jButton11.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton11ActionPerformed(evt);
+            }
+        });
+
+        jLabel18.setText("Directory or file you want to add already exists.");
+
+        jLabel19.setText("Do you want to replace it?");
+
+        javax.swing.GroupLayout FindDirectoryLayout = new javax.swing.GroupLayout(FindDirectory.getContentPane());
+        FindDirectory.getContentPane().setLayout(FindDirectoryLayout);
+        FindDirectoryLayout.setHorizontalGroup(
+            FindDirectoryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(FindDirectoryLayout.createSequentialGroup()
+                .addGap(49, 49, 49)
+                .addComponent(jButton10)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton11)
+                .addGap(49, 49, 49))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, FindDirectoryLayout.createSequentialGroup()
+                .addContainerGap(69, Short.MAX_VALUE)
+                .addComponent(jLabel18)
+                .addGap(66, 66, 66))
+            .addGroup(FindDirectoryLayout.createSequentialGroup()
+                .addGap(122, 122, 122)
+                .addComponent(jLabel19)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        FindDirectoryLayout.setVerticalGroup(
+            FindDirectoryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, FindDirectoryLayout.createSequentialGroup()
+                .addContainerGap(87, Short.MAX_VALUE)
+                .addComponent(jLabel18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel19)
+                .addGap(20, 20, 20)
+                .addGroup(FindDirectoryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton10)
+                    .addComponent(jButton11))
+                .addGap(87, 87, 87))
+        );
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jTree1.setCellRenderer(new FileSystemTreeRenderer());
@@ -890,11 +953,16 @@ public class FileSystemApp extends javax.swing.JFrame {
     private void dirInputButtonOkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dirInputButtonOkActionPerformed
         // TODO add your handling code here:
         String name = this.dirTextInput.getText();
-        this.fs.createDirectory(name);
-        this.refreshView();
-        this.dirInputDialog.setVisible(false);
-        
-        
+        this.newDirFile = name;
+        this.isDir = true;
+        if(this.fs.createDirectory(name)!=null){
+            this.refreshView();
+            this.dirInputDialog.setVisible(false);            
+        } else{
+            this.dirInputDialog.setVisible(false);
+            this.fileInputDialog.setVisible(false);
+            this.FindDirectory.setVisible(true);
+        }
     }//GEN-LAST:event_dirInputButtonOkActionPerformed
 
     private void dirInputButtonCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dirInputButtonCancelActionPerformed
@@ -906,9 +974,16 @@ public class FileSystemApp extends javax.swing.JFrame {
     private void fileButtonOkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fileButtonOkActionPerformed
         // TODO add your handling code here:
         Files actualF = this.fs.createFile(this.fileNameInput.getText(), this.fileExtensionInput.getSelectedItem().toString(), this.fileContentInput.getText());
-        this.disc.addContent(this.fileContentInput.getText(),actualF);
-        this.fileInputDialog.setVisible(false);
-        this.refreshView();
+        this.isDir = false;
+        this.newDirFile = this.fileNameInput.getText();
+        //this.ifDeleted = actualF;
+        if(actualF != null){
+            this.disc.addContent(this.fileContentInput.getText(),actualF);
+            this.fileInputDialog.setVisible(false);
+            this.refreshView();            
+        } else{
+            this.FindDirectory.setVisible(true);
+        }
     }//GEN-LAST:event_fileButtonOkActionPerformed
 
     private void fileButtonCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fileButtonCancelActionPerformed
@@ -1260,6 +1335,29 @@ public class FileSystemApp extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_dirTextInputActionPerformed
 
+    private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
+
+        if(this.isDir){
+            this.fs.createDirectory(this.newDirFile);
+            this.fs.ReMove(this.newDirFile, this.isDir);
+        } else{
+            Files forDeleted = this.fs.getCurrent().findFile(newDirFile);
+            this.disc.deleteFile(forDeleted);
+            this.fs.ReMove(this.newDirFile, this.isDir);
+            Files actualF = this.fs.createFile(this.fileNameInput.getText(), this.fileExtensionInput.getSelectedItem().toString(), this.fileContentInput.getText());
+            this.disc.addContent(this.fileContentInput.getText(),actualF);
+        }
+        this.refreshView();
+        this.FindDirectory.setVisible(false);
+        this.dirInputDialog.setVisible(false);
+        this.fileInputDialog.setVisible(false);
+    }//GEN-LAST:event_jButton10ActionPerformed
+
+    private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
+        this.FindDirectory.setVisible(false);
+        this.dirInputDialog.setVisible(false);
+    }//GEN-LAST:event_jButton11ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1300,6 +1398,7 @@ public class FileSystemApp extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JDialog FindDirectory;
     private javax.swing.JTextField copyAFilePath;
     private javax.swing.JTextField copyBFilePath;
     private javax.swing.JButton copyCancelBtn;
@@ -1331,6 +1430,8 @@ public class FileSystemApp extends javax.swing.JFrame {
     private javax.swing.JTextArea findResultsArea;
     private javax.swing.JTextField findTextField;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton10;
+    private javax.swing.JButton jButton11;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
@@ -1348,6 +1449,8 @@ public class FileSystemApp extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;

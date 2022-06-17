@@ -80,8 +80,17 @@ public class Directory {
         }
         return null;
     }
+    
+    //Get file
+    public Files findFile(String name){
+        for (int i = 0; i < this.files.size(); i++){
+            if (this.files.get(i).getName().equals(name))
+                return this.files.get(i);
+        }
+        return null;
+    }
 
-    //Get File
+    //Modify File
     public Files modifyFile(String name, String content){
         for (int i = 0; i < this.files.size(); i++){
             if (this.files.get(i).getName() == name);
