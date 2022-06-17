@@ -75,16 +75,23 @@ public class FileSystem {
     }*/
 
     //Add new directories
-    public void createDirectory(String name){
-        Directory newDirec = new Directory(name, current.getRoute() + name + "/");
-        current.addDirectory(newDirec);
+    public Directory createDirectory(String name){
+        if (current.findDir(name) == null){
+            Directory newDirec = new Directory(name, current.getRoute() + name + "/");
+            current.addDirectory(newDirec);
+            return newDirec;
+        }
+        return null;
     }
 
     //Add new files
     public Files createFile(String name, String extension, String content){
-        Files newFile = new Files(name,content,extension, current.getRoute() + name + extension);
-        current.addFiles(newFile);
-        return newFile;
+        if(current.findFile(name) == null){
+            Files newFile = new Files(name,content,extension, current.getRoute() + name + extension);
+            current.addFiles(newFile);
+            return newFile;            
+        }
+        return null;
     }
 
     //Changes current directory

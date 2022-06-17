@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Iterator;
 
 /**
  *
@@ -209,9 +210,19 @@ public class VirtualDisc {
 
     //Delete from disk
     public void deleteFile(Files file){
+        System.out.println("Entra");
         String contents = "0".repeat(this.sectorSize);
         ArrayList<Integer> indexes = new ArrayList<>();
-        indexes = this.map.get(file);
+        //indexes = this.map.get(file);
+        System.out.println("FILE " + file.getName() + " " + file.getRoute());
+        for (Iterator<Map.Entry<Files, ArrayList<Integer>>> entries = map.entrySet().iterator(); entries.hasNext(); ) {
+            Map.Entry<Files, ArrayList<Integer>> entry = entries.next();
+            if(entry.getKey().getName() == file.getName() && entry.getKey().getRoute() == file.getRoute()){
+                indexes = entry.getValue();
+                break;
+            }
+	}
+        System.out.println("Toma: " + indexes);
         while(indexes.size() != 0){
             data.set(indexes.get(0), contents);
 
@@ -220,7 +231,9 @@ public class VirtualDisc {
             }
             indexes.remove(0);
         }
+        System.out.println("Sale");
         this.map.remove(file);
+        System.out.println("Remueve");
         this.writeDisk();
     }
     
