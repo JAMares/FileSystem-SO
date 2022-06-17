@@ -31,8 +31,6 @@ public class Files {
         this.route = route;
     }
     
-    
-   
     public Files(String name, String content, String extent, String route) {
         this.name = name;
         this.content = content;
@@ -57,6 +55,7 @@ public class Files {
 
     public void setContent(String content) {
         this.content = content;
+        this.setModification(LocalDateTime.now());
     }
 
     public String getExtent() {

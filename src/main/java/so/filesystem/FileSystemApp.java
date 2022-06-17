@@ -25,6 +25,7 @@ public class FileSystemApp extends javax.swing.JFrame {
     public FileSystem fs;
     private Directory dirTmp;
     private Files fileTmp;
+    private VirtualDisc disc;
     
 
     /**
@@ -37,11 +38,6 @@ public class FileSystemApp extends javax.swing.JFrame {
     
     public void test(){
         this.fs = new FileSystem();
-        try {
-            this.fs.createVD(10, 10);
-        } catch (IOException ex) {
-            Logger.getLogger(FileSystemApp.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }
     
     public void refreshView(){
@@ -128,6 +124,12 @@ public class FileSystemApp extends javax.swing.JFrame {
         jLabel15 = new javax.swing.JLabel();
         copyOKBtn = new javax.swing.JButton();
         copyCancelBtn = new javax.swing.JButton();
+        setVD = new javax.swing.JDialog();
+        textSectors = new javax.swing.JTextField();
+        sectorButtonOk = new javax.swing.JButton();
+        jLabel16 = new javax.swing.JLabel();
+        textSizes = new javax.swing.JTextField();
+        jLabel17 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTree1 = new javax.swing.JTree();
         jButton1 = new javax.swing.JButton();
@@ -146,6 +148,12 @@ public class FileSystemApp extends javax.swing.JFrame {
         dirInputDialog.setTitle("Input directory name:");
         dirInputDialog.setAlwaysOnTop(true);
         dirInputDialog.setBounds(new java.awt.Rectangle(10, 10, 400, 300));
+
+        dirTextInput.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                dirTextInputActionPerformed(evt);
+            }
+        });
 
         dirInputButtonOk.setText("OK");
         dirInputButtonOk.addActionListener(new java.awt.event.ActionListener() {
@@ -187,7 +195,7 @@ public class FileSystemApp extends javax.swing.JFrame {
                 .addContainerGap(119, Short.MAX_VALUE))
         );
 
-        fileInputDialog.setTitle("Input directory name:");
+        fileInputDialog.setTitle("Input file name:");
         fileInputDialog.setAlwaysOnTop(true);
         fileInputDialog.setBounds(new java.awt.Rectangle(10, 10, 400, 300));
 
@@ -650,6 +658,66 @@ public class FileSystemApp extends javax.swing.JFrame {
                 .addGap(21, 21, 21))
         );
 
+        setVD.setTitle("Input VD information:");
+        setVD.setAlwaysOnTop(true);
+        setVD.setBounds(new java.awt.Rectangle(10, 10, 400, 300));
+        setVD.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+
+        textSectors.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                textSectorsActionPerformed(evt);
+            }
+        });
+
+        sectorButtonOk.setText("OK");
+        sectorButtonOk.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                sectorButtonOkActionPerformed(evt);
+            }
+        });
+
+        jLabel16.setText("Number of sectors");
+
+        textSizes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                textSizesActionPerformed(evt);
+            }
+        });
+
+        jLabel17.setText("Size of each sector");
+
+        javax.swing.GroupLayout setVDLayout = new javax.swing.GroupLayout(setVD.getContentPane());
+        setVD.getContentPane().setLayout(setVDLayout);
+        setVDLayout.setHorizontalGroup(
+            setVDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(setVDLayout.createSequentialGroup()
+                .addGap(44, 44, 44)
+                .addGroup(setVDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(setVDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(textSizes)
+                        .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 302, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(setVDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(sectorButtonOk, javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(textSectors, javax.swing.GroupLayout.DEFAULT_SIZE, 302, Short.MAX_VALUE)
+                        .addComponent(jLabel16, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addContainerGap(54, Short.MAX_VALUE))
+        );
+        setVDLayout.setVerticalGroup(
+            setVDLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(setVDLayout.createSequentialGroup()
+                .addGap(46, 46, 46)
+                .addComponent(jLabel16)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(textSectors, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(30, 30, 30)
+                .addComponent(jLabel17)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(textSizes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 68, Short.MAX_VALUE)
+                .addComponent(sectorButtonOk)
+                .addGap(46, 46, 46))
+        );
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jTree1.setCellRenderer(new FileSystemTreeRenderer());
@@ -837,13 +905,15 @@ public class FileSystemApp extends javax.swing.JFrame {
 
     private void fileButtonOkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fileButtonOkActionPerformed
         // TODO add your handling code here:
-        this.fs.createFile(this.fileNameInput.getText(), this.fileExtensionInput.getSelectedItem().toString(), this.fileContentInput.getText());
+        Files actualF = this.fs.createFile(this.fileNameInput.getText(), this.fileExtensionInput.getSelectedItem().toString(), this.fileContentInput.getText());
+        this.disc.addContent(this.fileContentInput.getText(),actualF);
         this.fileInputDialog.setVisible(false);
         this.refreshView();
     }//GEN-LAST:event_fileButtonOkActionPerformed
 
     private void fileButtonCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fileButtonCancelActionPerformed
         // TODO add your handling code here:
+        this.fileInputDialog.setVisible(false);
     }//GEN-LAST:event_fileButtonCancelActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
@@ -929,7 +999,7 @@ public class FileSystemApp extends javax.swing.JFrame {
                 String modificationString = modification.format(formatM);
                 this.filePropertiesDialog.setTitle("Properties of "+file.toString());
                 this.filePropertiesNameText.setText(file.toString());
-                this.filePropertiesSizeText.setText(Integer.toString(file.getName().length()));
+                this.filePropertiesSizeText.setText(Integer.toString(file.getContent().length()));
                 this.filePropertiesCreatedText.setText(creationString);
                 this.filePropertiesModifiedText.setText(modificationString);
                 this.filePropertiesDialog.setVisible(true);
@@ -946,7 +1016,7 @@ public class FileSystemApp extends javax.swing.JFrame {
                     String modificationString = modification.format(formatM);
                     this.filePropertiesDialog.setTitle("Properties of "+file.toString());
                     this.filePropertiesNameText.setText(file.toString());
-                    this.filePropertiesSizeText.setText(Integer.toString(file.getName().length()));
+                    this.filePropertiesSizeText.setText(Integer.toString(file.getContent().length()));
                     this.filePropertiesCreatedText.setText(creationString);
                     this.filePropertiesModifiedText.setText(modificationString);
                     this.filePropertiesDialog.setVisible(true);
@@ -1048,6 +1118,7 @@ public class FileSystemApp extends javax.swing.JFrame {
             if(this.jList1.getSelectedValue() instanceof Files file){
                 this.modifyTextArea.setText(file.getContent());
                 this.modifyDialog.setTitle("Modifying "+file.toString());
+                this.fileTmp = file;
                 this.modifyDialog.setVisible(true);
             }
         }
@@ -1056,6 +1127,7 @@ public class FileSystemApp extends javax.swing.JFrame {
                 if(tNode.getUserObject() instanceof Files file){
                     this.modifyTextArea.setText(file.getContent());
                     this.modifyDialog.setTitle("Modifying "+file.toString());
+                    this.fileTmp = file;
                     this.modifyDialog.setVisible(true);
                 }
             }
@@ -1065,11 +1137,14 @@ public class FileSystemApp extends javax.swing.JFrame {
 
     private void modifySaveBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modifySaveBtnActionPerformed
         // TODO add your handling code here:
+        this.disc.replaceData(this.fileTmp, this.modifyTextArea.getText());
+        this.fileTmp = null;
         this.modifyDialog.setVisible(false);
     }//GEN-LAST:event_modifySaveBtnActionPerformed
 
     private void modifyCancelBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modifyCancelBtnActionPerformed
         // TODO add your handling code here:
+        this.fileTmp = null;
         this.modifyDialog.setVisible(false);
     }//GEN-LAST:event_modifyCancelBtnActionPerformed
 
@@ -1109,6 +1184,30 @@ public class FileSystemApp extends javax.swing.JFrame {
         this.copyDialog.setVisible(false);
     }//GEN-LAST:event_copyCancelBtnActionPerformed
 
+    private void sectorButtonOkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sectorButtonOkActionPerformed
+        // TODO add your handling code here:
+        Integer numberSector = Integer.parseInt(this.textSectors.getText());
+        Integer sizeSector = Integer.parseInt(this.textSizes.getText());
+        try{
+            this.disc = new VirtualDisc(numberSector, sizeSector);
+        } catch (IOException ex) {
+            Logger.getLogger(FileSystemApp.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        this.setVD.setVisible(false);
+    }//GEN-LAST:event_sectorButtonOkActionPerformed
+
+    private void textSectorsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textSectorsActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_textSectorsActionPerformed
+
+    private void textSizesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textSizesActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_textSizesActionPerformed
+
+    private void dirTextInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dirTextInputActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_dirTextInputActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1143,6 +1242,7 @@ public class FileSystemApp extends javax.swing.JFrame {
                 fsa.test();
                 fsa.refreshView();
                 fsa.setVisible(true);
+                fsa.setVD.setVisible(true);
             }
         });
     }
@@ -1194,6 +1294,8 @@ public class FileSystemApp extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -1219,6 +1321,10 @@ public class FileSystemApp extends javax.swing.JFrame {
     private javax.swing.JTextField moveCurrentPathText;
     private javax.swing.JDialog moveItemDialog;
     private javax.swing.JTextField moveTargetPathText;
+    private javax.swing.JButton sectorButtonOk;
+    private javax.swing.JDialog setVD;
+    private javax.swing.JTextField textSectors;
+    private javax.swing.JTextField textSizes;
     // End of variables declaration//GEN-END:variables
 
 }
