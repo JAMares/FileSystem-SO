@@ -22,6 +22,8 @@ public class Files {
     private ArrayList<Integer> sectors;
     private LocalDateTime creation;
     private LocalDateTime modification;
+    private boolean isVirtual;
+    private Files original;
 
     public String getRoute() {
         return route;
@@ -29,6 +31,20 @@ public class Files {
 
     public void setRoute(String route) {
         this.route = route;
+    }
+
+    public Files getOriginal() {
+        return original;
+    }
+
+    public void setOriginal(Files original) {
+        this.original = original;
+    }
+    
+    public Files(String name, boolean isVirtual, Files original) {
+        this.name = name;
+        this.isVirtual = isVirtual;
+        this.original = original;
     }
     
     public Files(String name, String content, String extent, String route) {
@@ -39,6 +55,7 @@ public class Files {
         this.creation = LocalDateTime.now();
         this.modification = LocalDateTime.now();
         this.sectors = new ArrayList<>();
+        this.isVirtual = false;
     }
 
     public String getName() {
@@ -105,5 +122,15 @@ public class Files {
     public String toString(){
         return this.getName()+this.getExtent();
     }
+
+    public boolean isIsVirtual() {
+        return isVirtual;
+    }
+
+    public void setIsVirtual(boolean isVirtual) {
+        this.isVirtual = isVirtual;
+    }
+    
+    
     
 }
