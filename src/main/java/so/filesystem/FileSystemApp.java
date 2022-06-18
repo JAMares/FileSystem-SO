@@ -786,6 +786,7 @@ public class FileSystemApp extends javax.swing.JFrame {
         );
 
         fileErrorDialog.setTitle("Error: Virtual route points to nothing");
+        fileErrorDialog.setBounds(new java.awt.Rectangle(10, 10, 400, 300));
 
         jButton12.setText("OK");
         jButton12.addActionListener(new java.awt.event.ActionListener() {
@@ -1112,6 +1113,7 @@ public class FileSystemApp extends javax.swing.JFrame {
         if(this.jList1.getSelectedValue() instanceof Files file){
             if(file.isIsVirtual()){
                 this.fs.getCurrent().getFiles().remove(file);
+                this.refreshView();
                 return;
             }
             this.fs.ReMove(file.getName(), false);

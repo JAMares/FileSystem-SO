@@ -960,6 +960,9 @@
     <Container class="javax.swing.JDialog" name="fileErrorDialog">
       <Properties>
         <Property name="title" type="java.lang.String" value="Error: Virtual route points to nothing"/>
+        <Property name="bounds" type="java.awt.Rectangle" editor="org.netbeans.beaninfo.editors.RectangleEditor">
+          <Rectangle value="[10, 10, 400, 300]"/>
+        </Property>
       </Properties>
 
       <Layout>

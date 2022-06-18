@@ -160,11 +160,8 @@ public class Directory {
                Directory dir = directories.get(posDir);
                if(dir.getName().equals(target)){
                    rutas.add(route + dir.getName() + "/");
-                   rutas.addAll(dir.Find(target));
                }
-               else{
-                   rutas.addAll(dir.Find(target));
-               }
+               rutas.addAll(dir.Find(target));
            }
        }
        return rutas;

@@ -185,6 +185,8 @@ public class FileSystem {
     
     //Find the Directory by roadmap
     public Directory findDirRoute(ArrayList<String> roadmap){
+        if(roadmap.size() == 1)
+            return root;
         roadmap.remove(0);
         Directory road = root;
         while(!roadmap.isEmpty()){
@@ -241,6 +243,8 @@ public class FileSystem {
     public void Move(String routeOrigin, String routeGoal, boolean isDir){
         ArrayList<String> originRoad = parserRoute(routeOrigin);
         ArrayList<String> goalRoad = parserRoute(routeGoal);
+        ArrayList<String> setRoute = parserRoute(routeGoal);
+
         
         System.out.println("Hizo el parseo");
         
@@ -256,31 +260,31 @@ public class FileSystem {
             
             String[] oldName = goalRoad.get(goalSize-1).split("\\.");
             String newName = oldName[0];
-            goalRoad.remove(goalSize-1);
             
-            if(sameRoute(originRoad, goalRoad)){//Rename
+            if(sameRoute(originRoad, goalRoad)){//Rename      
+                goalRoad.remove(goalSize-1);
                 System.out.println("Entro en File/Rename");
                 
                 if(goalRoad.size() > 1){
                     this.current = findDirRoute(goalRoad);
-                    old.setName(newName);
                     this.current.addFiles(old);
                     this.current = tmpDir;
                 }
                 else {
-                    old.setName(newName);
                     this.current.addFiles(old);
-                }
-                
+                }   
             } 
-            else {
+            else {      
+                goalRoad.remove(goalSize-1);
                 System.out.println("Entro en File/Move");
                 this.current = findDirRoute(goalRoad);
                 this.current.addFiles(old);
                 originRoad.remove(originSize-1);
                 this.current = findDirRoute(originRoad);
                 this.current = tmpDir;   
-            } 
+            }
+            old.setName(newName);
+            old.setRoute(routeGoal.split("\\.")[0] + old.getExtent());
         }
         else{
             ArrayList<String> copyRoad = new ArrayList<>();
