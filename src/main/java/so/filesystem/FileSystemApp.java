@@ -138,6 +138,10 @@ public class FileSystemApp extends javax.swing.JFrame {
         jButton11 = new javax.swing.JButton();
         jLabel18 = new javax.swing.JLabel();
         jLabel19 = new javax.swing.JLabel();
+        fileErrorDialog = new javax.swing.JDialog();
+        jButton12 = new javax.swing.JButton();
+        jScrollPane6 = new javax.swing.JScrollPane();
+        fileErrorText = new javax.swing.JTextArea();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTree1 = new javax.swing.JTree();
         jButton1 = new javax.swing.JButton();
@@ -781,6 +785,44 @@ public class FileSystemApp extends javax.swing.JFrame {
                 .addGap(87, 87, 87))
         );
 
+        fileErrorDialog.setTitle("Error: Virtual route points to nothing");
+
+        jButton12.setText("OK");
+        jButton12.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton12ActionPerformed(evt);
+            }
+        });
+
+        fileErrorText.setEditable(false);
+        fileErrorText.setColumns(20);
+        fileErrorText.setRows(5);
+        jScrollPane6.setViewportView(fileErrorText);
+
+        javax.swing.GroupLayout fileErrorDialogLayout = new javax.swing.GroupLayout(fileErrorDialog.getContentPane());
+        fileErrorDialog.getContentPane().setLayout(fileErrorDialogLayout);
+        fileErrorDialogLayout.setHorizontalGroup(
+            fileErrorDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(fileErrorDialogLayout.createSequentialGroup()
+                .addGroup(fileErrorDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(fileErrorDialogLayout.createSequentialGroup()
+                        .addGap(169, 169, 169)
+                        .addComponent(jButton12))
+                    .addGroup(fileErrorDialogLayout.createSequentialGroup()
+                        .addGap(84, 84, 84)
+                        .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(90, Short.MAX_VALUE))
+        );
+        fileErrorDialogLayout.setVerticalGroup(
+            fileErrorDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, fileErrorDialogLayout.createSequentialGroup()
+                .addContainerGap(109, Short.MAX_VALUE)
+                .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(67, 67, 67)
+                .addComponent(jButton12)
+                .addContainerGap())
+        );
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jTree1.setCellRenderer(new FileSystemTreeRenderer());
@@ -1007,6 +1049,14 @@ public class FileSystemApp extends javax.swing.JFrame {
         // TODO add your handling code here:
         if(this.jList1.isFocusOwner()){
             if(this.jList1.getSelectedValue() instanceof Files file){
+                if(file.isIsVirtual()){
+                    file = file.getOriginal();
+                    if(file.getContent()==null){
+                        this.fileErrorText.setText("Selected virtual copy points to nothing");
+                        this.fileErrorDialog.setVisible(true);
+                        return;
+                    }
+                }
                 this.fileOpenDialog.setTitle(file.toString());
                 this.fileOpenText.setText(file.getContent());
                 this.fileOpenDialog.setVisible(true);
@@ -1024,6 +1074,14 @@ public class FileSystemApp extends javax.swing.JFrame {
                     this.refreshView();
                 }
                 if(tNode.getUserObject() instanceof Files file){
+                    if(file.isIsVirtual()){
+                        file = file.getOriginal();
+                        if(file.getContent()==null){
+                            this.fileErrorText.setText("Selected virtual copy points to nothing");
+                            this.fileErrorDialog.setVisible(true);
+                            return;
+                        }
+                    }
                     this.fileOpenDialog.setTitle(file.toString());
                     this.fileOpenText.setText(file.getContent());
                     this.fileOpenDialog.setVisible(true);
@@ -1052,6 +1110,10 @@ public class FileSystemApp extends javax.swing.JFrame {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
         if(this.jList1.getSelectedValue() instanceof Files file){
+            if(file.isIsVirtual()){
+                this.fs.getCurrent().getFiles().remove(file);
+                return;
+            }
             this.fs.ReMove(file.getName(), false);
             this.refreshView();
         }
@@ -1064,15 +1126,26 @@ public class FileSystemApp extends javax.swing.JFrame {
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         // TODO add your handling code here:
+        String optText = "";
         if(this.jList1.isFocusOwner()){
             if(this.jList1.getSelectedValue() instanceof Files file){
+                if(file.isIsVirtual()){
+                    optText = "(opened from "+file.toString()+")";
+                    file = file.getOriginal();
+                    if(file.getContent()==null){
+                        this.fileErrorText.setText("Selected virtual copy points to nothing");
+                        this.fileErrorDialog.setVisible(true);
+                        return;
+                    }
+                    
+                }
                 LocalDateTime creation = file.getCreation();
                 LocalDateTime modification = file.getModification();
                 DateTimeFormatter formatC = DateTimeFormatter.ISO_DATE;
                 DateTimeFormatter formatM = DateTimeFormatter.ISO_DATE;
                 String creationString = creation.format(formatC);
                 String modificationString = modification.format(formatM);
-                this.filePropertiesDialog.setTitle("Properties of "+file.toString());
+                this.filePropertiesDialog.setTitle("Properties of "+file.toString()+optText);
                 this.filePropertiesNameText.setText(file.toString());
                 this.filePropertiesSizeText.setText(Integer.toString(file.getContent().length()));
                 this.filePropertiesCreatedText.setText(creationString);
@@ -1083,13 +1156,22 @@ public class FileSystemApp extends javax.swing.JFrame {
         if(this.jTree1.isFocusOwner()){
             if(this.jTree1.getLastSelectedPathComponent() instanceof DefaultMutableTreeNode tNode){
                 if(tNode.getUserObject() instanceof Files file){
+                    if(file.isIsVirtual()){
+                        optText = "(opened from "+file.toString()+")";
+                        file = file.getOriginal();
+                        if(file.getContent()==null){
+                            this.fileErrorText.setText("Selected virtual copy points to nothing");
+                            this.fileErrorDialog.setVisible(true);
+                            return;
+                        }
+                    }
                     LocalDateTime creation = file.getCreation();
                     LocalDateTime modification = file.getModification();
                     DateTimeFormatter formatC = DateTimeFormatter.ISO_DATE;
                     DateTimeFormatter formatM = DateTimeFormatter.ISO_DATE;
                     String creationString = creation.format(formatC);
                     String modificationString = modification.format(formatM);
-                    this.filePropertiesDialog.setTitle("Properties of "+file.toString());
+                    this.filePropertiesDialog.setTitle("Properties of "+file.toString()+optText);
                     this.filePropertiesNameText.setText(file.toString());
                     this.filePropertiesSizeText.setText(Integer.toString(file.getContent().length()));
                     this.filePropertiesCreatedText.setText(creationString);
@@ -1121,24 +1203,6 @@ public class FileSystemApp extends javax.swing.JFrame {
                 this.moveCurrentPathText.setText(dir.getRoute());
                 this.moveTargetPathText.setText(dir.getRoute());
                 this.moveItemDialog.setVisible(true);
-            }
-        }
-        if(this.jTree1.isFocusOwner()){
-            if(this.jTree1.getLastSelectedPathComponent() instanceof DefaultMutableTreeNode tNode){
-                if(tNode.getUserObject() instanceof Directory dir){
-                    this.dirTmp = dir;
-                    this.moveItemDialog.setTitle("Moving Directory: "+dir.toString());
-                    this.moveCurrentPathText.setText(dir.getRoute());
-                    this.moveTargetPathText.setText(dir.getRoute());
-                    this.moveItemDialog.setVisible(true);
-                }
-                if(tNode.getUserObject() instanceof Files file){
-                    this.fileTmp = file;
-                    this.moveItemDialog.setTitle("Moving File: "+file.toString());
-                    this.moveCurrentPathText.setText(file.getRoute());
-                    this.moveTargetPathText.setText(file.getRoute());
-                    this.moveItemDialog.setVisible(true);
-                }
             }
         }
     }//GEN-LAST:event_jButton7ActionPerformed
@@ -1191,6 +1255,14 @@ public class FileSystemApp extends javax.swing.JFrame {
         // TODO add your handling code here:
         if(this.jList1.isFocusOwner()){
             if(this.jList1.getSelectedValue() instanceof Files file){
+                if(file.isIsVirtual()){
+                    file = file.getOriginal();
+                    if(file.getContent()==null){
+                        this.fileErrorText.setText("Selected virtual copy points to nothing");
+                        this.fileErrorDialog.setVisible(true);
+                        return;
+                    }
+                }
                 this.modifyTextArea.setText(file.getContent());
                 this.modifyDialog.setTitle("Modifying "+file.toString());
                 this.fileTmp = file;
@@ -1200,6 +1272,14 @@ public class FileSystemApp extends javax.swing.JFrame {
         if(this.jTree1.isFocusOwner()){
             if(this.jTree1.getLastSelectedPathComponent() instanceof DefaultMutableTreeNode tNode){
                 if(tNode.getUserObject() instanceof Files file){
+                    if(file.isIsVirtual()){
+                        file = file.getOriginal();
+                        if(file.getContent()==null){
+                            this.fileErrorText.setText("Selected virtual copy points to nothing");
+                            this.fileErrorDialog.setVisible(true);
+                            return;
+                        }
+                    }
                     this.modifyTextArea.setText(file.getContent());
                     this.modifyDialog.setTitle("Modifying "+file.toString());
                     this.fileTmp = file;
@@ -1227,6 +1307,14 @@ public class FileSystemApp extends javax.swing.JFrame {
         // TODO add your handling code here:
         if(this.jList1.isFocusOwner()){
             if(this.jList1.getSelectedValue() instanceof Files file){
+                if(file.isIsVirtual()){
+                    file = file.getOriginal();
+                    if(file.getContent()==null){
+                        this.fileErrorText.setText("Selected virtual copy points to nothing");
+                        this.fileErrorDialog.setVisible(true);
+                        return;
+                    }
+                }
                 this.modifyDialog.setTitle("Copying File: "+file.toString());
                 this.copyAFilePath.setText(file.getRoute());
                 this.copyBFilePath.setText("");
@@ -1244,6 +1332,14 @@ public class FileSystemApp extends javax.swing.JFrame {
         if(this.jTree1.isFocusOwner()){
             if(this.jTree1.getLastSelectedPathComponent() instanceof DefaultMutableTreeNode tNode){
                 if(tNode.getUserObject() instanceof Files file){
+                    if(file.isIsVirtual()){
+                        file = file.getOriginal();
+                        if(file.getContent()==null){
+                            this.fileErrorText.setText("Selected virtual copy points to nothing");
+                            this.fileErrorDialog.setVisible(true);
+                           return;
+                        }
+                    }
                     this.modifyDialog.setTitle("Copying File: "+file.toString());
                     this.copyAFilePath.setText(file.getRoute());
                     this.copyBFilePath.setText("");
@@ -1268,7 +1364,7 @@ public class FileSystemApp extends javax.swing.JFrame {
         if(this.modifyDialog.getTitle().contains("Copying File:")){
             if(tmp!=null){
                 if(this.copyTypeCombo.getSelectedItem()=="Virtual"){
-                    tmp.addFiles(copyToVirtual(fileTmp));
+                    tmp.addFiles(copyToVirtual(fileTmp,tmp.getRoute()+fileTmp.getName()+".shrt"));
                 }
                 else{
                     this.dirTmp = this.fs.getCurrent();
@@ -1335,8 +1431,8 @@ public class FileSystemApp extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_dirTextInputActionPerformed
 
-    private Files copyToVirtual(Files file){
-        Files virtualFile =  new Files(file.getName(),true, file);
+    private Files copyToVirtual(Files file, String route){
+        Files virtualFile =  new Files(file.getName(), route, true, file);
         return virtualFile;
     }
     
@@ -1363,6 +1459,11 @@ public class FileSystemApp extends javax.swing.JFrame {
         this.FindDirectory.setVisible(false);
         this.dirInputDialog.setVisible(false);
     }//GEN-LAST:event_jButton11ActionPerformed
+
+    private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
+        // TODO add your handling code here:
+        this.fileErrorDialog.setVisible(false);
+    }//GEN-LAST:event_jButton12ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1418,6 +1519,8 @@ public class FileSystemApp extends javax.swing.JFrame {
     private javax.swing.JButton fileButtonCancel;
     private javax.swing.JButton fileButtonOk;
     private javax.swing.JTextField fileContentInput;
+    private javax.swing.JDialog fileErrorDialog;
+    private javax.swing.JTextArea fileErrorText;
     private javax.swing.JComboBox<String> fileExtensionInput;
     private javax.swing.JDialog fileInputDialog;
     private javax.swing.JTextField fileNameInput;
@@ -1438,6 +1541,7 @@ public class FileSystemApp extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton11;
+    private javax.swing.JButton jButton12;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
@@ -1471,6 +1575,7 @@ public class FileSystemApp extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTree jTree1;
     private javax.swing.JButton modifyCancelBtn;

@@ -217,6 +217,7 @@ public class FileSystem {
                 Files file = current.getFiles().get(pos);
                 if(file.getName().equals(target)){
                     current.getFiles().remove(pos);
+                    file.setContent(null);
                     break;
                 }
             }
