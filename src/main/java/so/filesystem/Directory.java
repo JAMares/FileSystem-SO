@@ -147,7 +147,7 @@ public class Directory {
    public ArrayList<String> Find(String target){
        ArrayList<String> rutas = new ArrayList<>();
        if(!files.isEmpty()){
-           for(Integer posFile = 0; posFile < files.size(); posFile++){
+           for(int posFile = 0; posFile < files.size(); posFile++){
                Files file = files.get(posFile);
                String parse = "*" + file.getExtent();
                if(file.getName().equals(target) || parse.equals(target)){
@@ -156,10 +156,11 @@ public class Directory {
            }
        }
        if(!directories.isEmpty()){
-           for(Integer posDir = 0; posDir < directories.size(); posDir++){
+           for(int posDir = 0; posDir < directories.size(); posDir++){
                Directory dir = directories.get(posDir);
                if(dir.getName().equals(target)){
-                   rutas.add(route + "/" + dir.getName());
+                   rutas.add(route + dir.getName() + "/");
+                   rutas.addAll(dir.Find(target));
                }
                else{
                    rutas.addAll(dir.Find(target));
