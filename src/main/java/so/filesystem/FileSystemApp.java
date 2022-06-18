@@ -1268,7 +1268,7 @@ public class FileSystemApp extends javax.swing.JFrame {
         if(this.modifyDialog.getTitle().contains("Copying File:")){
             if(tmp!=null){
                 if(this.copyTypeCombo.getSelectedItem()=="Virtual"){
-                    tmp.addFiles(this.fileTmp);
+                    tmp.addFiles(copyToVirtual(fileTmp));
                 }
                 else{
                     this.dirTmp = this.fs.getCurrent();
@@ -1335,6 +1335,12 @@ public class FileSystemApp extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_dirTextInputActionPerformed
 
+    private Files copyToVirtual(Files file){
+        Files virtualFile =  new Files(file.getName(),true, file);
+        return virtualFile;
+    }
+    
+    
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
 
         if(this.isDir){
