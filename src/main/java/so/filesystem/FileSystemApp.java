@@ -1227,18 +1227,34 @@ public class FileSystemApp extends javax.swing.JFrame {
         // TODO add your handling code here:
         if(this.jList1.isFocusOwner()){
             if(this.jList1.getSelectedValue() instanceof Files file){
-                this.modifyDialog.setTitle("Copying "+file.toString());
+                this.modifyDialog.setTitle("Copying File: "+file.toString());
                 this.copyAFilePath.setText(file.getRoute());
                 this.copyBFilePath.setText("");
+                this.fileTmp = file;
+                this.copyDialog.setVisible(true);
+            }
+            if(this.jList1.getSelectedValue() instanceof Directory dir){
+                this.modifyDialog.setTitle("Copying Directory: "+dir.toString());
+                this.copyAFilePath.setText(dir.getRoute());
+                this.copyBFilePath.setText("");
+                this.dirTmp = dir;
                 this.copyDialog.setVisible(true);
             }
         }
         if(this.jTree1.isFocusOwner()){
             if(this.jTree1.getLastSelectedPathComponent() instanceof DefaultMutableTreeNode tNode){
                 if(tNode.getUserObject() instanceof Files file){
-                    this.modifyDialog.setTitle("Copying "+file.toString());
+                    this.modifyDialog.setTitle("Copying File: "+file.toString());
                     this.copyAFilePath.setText(file.getRoute());
                     this.copyBFilePath.setText("");
+                    this.fileTmp = file;
+                    this.copyDialog.setVisible(true);
+                }
+                if(tNode.getUserObject() instanceof Directory dir){
+                    this.modifyDialog.setTitle("Copying Directory: "+dir.toString());
+                    this.copyAFilePath.setText(dir.getRoute());
+                    this.copyBFilePath.setText("");
+                    this.dirTmp = dir;
                     this.copyDialog.setVisible(true);
                 }
             }
@@ -1248,14 +1264,50 @@ public class FileSystemApp extends javax.swing.JFrame {
 
     private void copyOKBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_copyOKBtnActionPerformed
         // TODO add your handling code here:
-        System.out.println(this.copyAFilePath.getText());
-        System.out.println(this.copyBFilePath.getText());
-        System.out.println(this.copyTypeCombo.getSelectedItem());
+        Directory tmp = this.fs.findDirRoute(this.fs.parserRoute(this.copyBFilePath.getText()));
+        if(this.modifyDialog.getTitle().contains("Copying File:")){
+            if(tmp!=null){
+                if(this.copyTypeCombo.getSelectedItem()=="Virtual"){
+                    tmp.addFiles(this.fileTmp);
+                }
+                else{
+                    this.dirTmp = this.fs.getCurrent();
+                    this.fs.setCurrent(tmp);
+                    Files actualF = this.fs.createFile(this.fileTmp.getName(), this.fileTmp.getExtent(), this.fileTmp.getContent());
+                    this.disc.addContent(this.fileTmp.getContent(),actualF);
+                    this.fs.setCurrent(this.dirTmp);
+                }
+            }
+            else{
+                System.out.println("Invalid route");
+            }
+        }
+        else{
+            if(tmp!=null){
+                if(this.copyTypeCombo.getSelectedItem()=="Virtual"){
+                    tmp.addDirectory(this.dirTmp);
+                }
+                else{
+                    this.dirTmp = this.fs.getCurrent();
+                    this.fs.setCurrent(tmp);
+                    // Copia real recursiva
+                    this.fs.setCurrent(this.dirTmp);
+                }
+            }
+            else{
+                System.out.println("Invalid route");
+            }
+        }
+        this.fileTmp = null;
+        this.dirTmp = null;
+        this.refreshView();
         this.copyDialog.setVisible(false);
     }//GEN-LAST:event_copyOKBtnActionPerformed
 
     private void copyCancelBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_copyCancelBtnActionPerformed
         // TODO add your handling code here:
+        this.fileTmp = null;
+        this.dirTmp = null;
         this.copyDialog.setVisible(false);
     }//GEN-LAST:event_copyCancelBtnActionPerformed
 
