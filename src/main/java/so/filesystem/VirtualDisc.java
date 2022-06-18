@@ -62,7 +62,7 @@ public class VirtualDisc {
         return peerSectors;
     }
     
-    public void addContent(String content, Files file){
+    public boolean addContent(String content, Files file){
         ArrayList<String> peerSectors = new ArrayList<>();
         peerSectors = classify(content);
         String contents = "0".repeat(this.sectorSize);
@@ -91,15 +91,11 @@ public class VirtualDisc {
             }
 
         } else{
-            System.out.println("DISK IS FULL");
-            return;
+            return false;
         }
         this.map.put(file, indexes);
         this.writeDisk();
-        //this.deleteFile(file);
-        //this.replaceData(file,"11111111");
-        //System.out.println("****************");
-        //System.out.println(map.get(file));
+        return true;
     }
     
     //writes in disk
@@ -141,29 +137,24 @@ public class VirtualDisc {
             }
             count = count + 1;
         }
-        //System.out.println("ES EL COUNT " + count + " ES EL SIZE" + indexes.size());
-        //this.map.replace(file, indexes);
-        //System.out.println("++++++++");
-        //System.out.println(map.get(file));
-        //this.viewContent();
     }
 
     //Modify File
-    public void replaceData(Files file, String newInsertion){
+    public boolean replaceData(Files file, String newInsertion){
         ArrayList<String> peerSectors = new ArrayList<>();
         peerSectors = classify(newInsertion);
         String contents = "0".repeat(this.sectorSize);
         ArrayList<Integer> indexes = new ArrayList<>();
         indexes = map.get(file);
-        file.setContent(newInsertion);
 
         if(peerSectors.size() == indexes.size()){
             //Insert in actual indexes
             replaceSameSize(peerSectors, indexes, file);
+            file.setContent(newInsertion);
         }
-
         else{
             if(peerSectors.size() > indexes.size() && this.empty >= (peerSectors.size() - indexes.size())){
+                file.setContent(newInsertion);
                 this.empty = this.empty - (peerSectors.size() - indexes.size());
 
                 //Insert in actual indexes
@@ -192,6 +183,7 @@ public class VirtualDisc {
                 this.map.replace(file, indexes);
             }
             else if(peerSectors.size() < indexes.size() && this.empty >= (peerSectors.size() - indexes.size())){
+                file.setContent(newInsertion);
                 for(int i = indexes.size()-1; i+1 > peerSectors.size(); i--){
                     data.set(indexes.get(i), contents);
                     indexes.remove(i);
@@ -199,13 +191,11 @@ public class VirtualDisc {
                 replaceSameSize(peerSectors, indexes, file);
             }
             else{
-                System.out.println("DISK IS FULL");
-                return;
+                return false;
             }
         }
-        //this.map.replace(file, indexes);
         this.writeDisk();
-        //Files replaced = map.keySet().toArray()[0];
+        return true;
     }
 
     //Delete from disk

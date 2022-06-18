@@ -86,7 +86,7 @@ public class FileSystem {
 
     //Add new files
     public Files createFile(String name, String extension, String content){
-        if(current.findFile(name) == null){
+        if(current.findFile(name,extension) == null){
             Files newFile = new Files(name,content,extension, current.getRoute() + name + extension);
             current.addFiles(newFile);
             return newFile;            

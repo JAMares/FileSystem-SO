@@ -27,6 +27,7 @@ public class FileSystemApp extends javax.swing.JFrame {
     private Files fileTmp;
     private VirtualDisc disc;
     private String newDirFile;
+    private String extentFile;
     private boolean isDir;
     private Files ifDeleted;
     
@@ -1019,6 +1020,7 @@ public class FileSystemApp extends javax.swing.JFrame {
         Files actualF = this.fs.createFile(this.fileNameInput.getText(), this.fileExtensionInput.getSelectedItem().toString(), this.fileContentInput.getText());
         this.isDir = false;
         this.newDirFile = this.fileNameInput.getText();
+        this.extentFile = this.fileExtensionInput.getSelectedItem().toString();
         //this.ifDeleted = actualF;
         if(actualF != null){
             this.disc.addContent(this.fileContentInput.getText(),actualF);
@@ -1117,6 +1119,7 @@ public class FileSystemApp extends javax.swing.JFrame {
                 return;
             }
             this.fs.ReMove(file.getName(), false);
+            this.disc.deleteFile(file);
             this.refreshView();
         }
         if(this.jList1.getSelectedValue() instanceof Directory dir){
@@ -1294,7 +1297,7 @@ public class FileSystemApp extends javax.swing.JFrame {
 
     private void modifySaveBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modifySaveBtnActionPerformed
         // TODO add your handling code here:
-        this.disc.replaceData(this.fileTmp, this.modifyTextArea.getText());
+        boolean n = this.disc.replaceData(this.fileTmp, this.modifyTextArea.getText());
         this.fileTmp = null;
         this.modifyDialog.setVisible(false);
     }//GEN-LAST:event_modifySaveBtnActionPerformed
@@ -1445,7 +1448,7 @@ public class FileSystemApp extends javax.swing.JFrame {
             this.fs.createDirectory(this.newDirFile);
             this.fs.ReMove(this.newDirFile, this.isDir);
         } else{
-            Files forDeleted = this.fs.getCurrent().findFile(newDirFile);
+            Files forDeleted = this.fs.getCurrent().findFile(newDirFile,extentFile);
             this.disc.deleteFile(forDeleted);
             this.fs.ReMove(this.newDirFile, this.isDir);
             Files actualF = this.fs.createFile(this.fileNameInput.getText(), this.fileExtensionInput.getSelectedItem().toString(), this.fileContentInput.getText());
