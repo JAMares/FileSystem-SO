@@ -41,10 +41,12 @@ public class Files {
         this.original = original;
     }
     
-    public Files(String name, boolean isVirtual, Files original) {
+    public Files(String name, String route, boolean isVirtual, Files original) {
         this.name = name;
+        this.route = route;
         this.isVirtual = isVirtual;
         this.original = original;
+        this.extent = ".shrt";
     }
     
     public Files(String name, String content, String extent, String route) {

@@ -82,9 +82,9 @@ public class Directory {
     }
     
     //Get file
-    public Files findFile(String name){
+    public Files findFile(String name, String extension){
         for (int i = 0; i < this.files.size(); i++){
-            if (this.files.get(i).getName().equals(name))
+            if (this.files.get(i).getName().equals(name) && this.files.get(i).getExtent().equals(extension))
                 return this.files.get(i);
         }
         return null;
@@ -160,11 +160,8 @@ public class Directory {
                Directory dir = directories.get(posDir);
                if(dir.getName().equals(target)){
                    rutas.add(route + dir.getName() + "/");
-                   rutas.addAll(dir.Find(target));
                }
-               else{
-                   rutas.addAll(dir.Find(target));
-               }
+               rutas.addAll(dir.Find(target));
            }
        }
        return rutas;

@@ -62,7 +62,7 @@ public class VirtualDisc {
         return peerSectors;
     }
     
-    public void addContent(String content, Files file){
+    public boolean addContent(String content, Files file){
         ArrayList<String> peerSectors = new ArrayList<>();
         peerSectors = classify(content);
         String contents = "0".repeat(this.sectorSize);
@@ -91,15 +91,11 @@ public class VirtualDisc {
             }
 
         } else{
-            System.out.println("DISK IS FULL");
-            return;
+            return false;
         }
         this.map.put(file, indexes);
         this.writeDisk();
-        //this.deleteFile(file);
-        //this.replaceData(file,"11111111");
-        //System.out.println("****************");
-        //System.out.println(map.get(file));
+        return true;
     }
     
     //writes in disk
@@ -119,7 +115,6 @@ public class VirtualDisc {
     
     //View Virtual disk content
     public void viewContent(){
-        System.out.println("Content: ");
         for(int i = 0; i < this.data.size(); i++){
             System.out.println(this.data.get(i));
         }
@@ -141,29 +136,24 @@ public class VirtualDisc {
             }
             count = count + 1;
         }
-        //System.out.println("ES EL COUNT " + count + " ES EL SIZE" + indexes.size());
-        //this.map.replace(file, indexes);
-        //System.out.println("++++++++");
-        //System.out.println(map.get(file));
-        //this.viewContent();
     }
 
     //Modify File
-    public void replaceData(Files file, String newInsertion){
+    public boolean replaceData(Files file, String newInsertion){
         ArrayList<String> peerSectors = new ArrayList<>();
         peerSectors = classify(newInsertion);
         String contents = "0".repeat(this.sectorSize);
         ArrayList<Integer> indexes = new ArrayList<>();
         indexes = map.get(file);
-        file.setContent(newInsertion);
 
         if(peerSectors.size() == indexes.size()){
             //Insert in actual indexes
             replaceSameSize(peerSectors, indexes, file);
+            file.setContent(newInsertion);
         }
-
         else{
             if(peerSectors.size() > indexes.size() && this.empty >= (peerSectors.size() - indexes.size())){
+                file.setContent(newInsertion);
                 this.empty = this.empty - (peerSectors.size() - indexes.size());
 
                 //Insert in actual indexes
@@ -192,6 +182,7 @@ public class VirtualDisc {
                 this.map.replace(file, indexes);
             }
             else if(peerSectors.size() < indexes.size() && this.empty >= (peerSectors.size() - indexes.size())){
+                file.setContent(newInsertion);
                 for(int i = indexes.size()-1; i+1 > peerSectors.size(); i--){
                     data.set(indexes.get(i), contents);
                     indexes.remove(i);
@@ -199,30 +190,25 @@ public class VirtualDisc {
                 replaceSameSize(peerSectors, indexes, file);
             }
             else{
-                System.out.println("DISK IS FULL");
-                return;
+                return false;
             }
         }
-        //this.map.replace(file, indexes);
         this.writeDisk();
-        //Files replaced = map.keySet().toArray()[0];
+        return true;
     }
 
     //Delete from disk
     public void deleteFile(Files file){
-        System.out.println("Entra");
         String contents = "0".repeat(this.sectorSize);
         ArrayList<Integer> indexes = new ArrayList<>();
-        //indexes = this.map.get(file);
-        System.out.println("FILE " + file.getName() + " " + file.getRoute());
         for (Iterator<Map.Entry<Files, ArrayList<Integer>>> entries = map.entrySet().iterator(); entries.hasNext(); ) {
             Map.Entry<Files, ArrayList<Integer>> entry = entries.next();
             if(entry.getKey().getName() == file.getName() && entry.getKey().getRoute() == file.getRoute()){
                 indexes = entry.getValue();
+                this.empty = empty + indexes.size();
                 break;
             }
 	}
-        System.out.println("Toma: " + indexes);
         while(indexes.size() != 0){
             data.set(indexes.get(0), contents);
 
@@ -231,10 +217,9 @@ public class VirtualDisc {
             }
             indexes.remove(0);
         }
-        System.out.println("Sale");
         this.map.remove(file);
-        System.out.println("Remueve");
         this.writeDisk();
     }
+   
     
 }
