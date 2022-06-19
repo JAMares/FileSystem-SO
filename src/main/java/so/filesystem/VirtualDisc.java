@@ -205,6 +205,7 @@ public class VirtualDisc {
             Map.Entry<Files, ArrayList<Integer>> entry = entries.next();
             if(entry.getKey().getName() == file.getName() && entry.getKey().getRoute() == file.getRoute()){
                 indexes = entry.getValue();
+                this.empty = empty + indexes.size();
                 break;
             }
 	}

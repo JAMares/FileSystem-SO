@@ -7,6 +7,7 @@ package so.filesystem;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -340,6 +341,11 @@ public class FileSystemApp extends javax.swing.JFrame {
 
         filePropertiesNameText.setEditable(false);
         filePropertiesNameText.setText("jTextField2");
+        filePropertiesNameText.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                filePropertiesNameTextActionPerformed(evt);
+            }
+        });
 
         filePropertiesSizeText.setEditable(false);
         filePropertiesSizeText.setText("jTextField2");
@@ -369,47 +375,45 @@ public class FileSystemApp extends javax.swing.JFrame {
                         .addComponent(filePropertiesBtn))
                     .addGroup(filePropertiesDialogLayout.createSequentialGroup()
                         .addGap(52, 52, 52)
-                        .addGroup(filePropertiesDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, filePropertiesDialogLayout.createSequentialGroup()
-                                .addComponent(jLabel7)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(filePropertiesModifiedText, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(filePropertiesDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, filePropertiesDialogLayout.createSequentialGroup()
                                 .addGroup(filePropertiesDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel4)
                                     .addComponent(jLabel5))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(29, 29, 29)
                                 .addGroup(filePropertiesDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(filePropertiesSizeText, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(filePropertiesNameText, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(filePropertiesSizeText, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(filePropertiesNameText, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, filePropertiesDialogLayout.createSequentialGroup()
-                                .addComponent(jLabel6)
+                                .addGroup(filePropertiesDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel6)
+                                    .addComponent(jLabel7))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(filePropertiesCreatedText, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(49, Short.MAX_VALUE))
+                                .addGroup(filePropertiesDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(filePropertiesModifiedText, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(filePropertiesCreatedText, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                .addContainerGap(43, Short.MAX_VALUE))
         );
         filePropertiesDialogLayout.setVerticalGroup(
             filePropertiesDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, filePropertiesDialogLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(filePropertiesDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(filePropertiesDialogLayout.createSequentialGroup()
-                        .addGroup(filePropertiesDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(filePropertiesNameText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel4))
-                        .addGap(18, 18, 18)
-                        .addGroup(filePropertiesDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel5)
-                            .addComponent(filePropertiesSizeText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(43, 43, 43))
-                    .addGroup(filePropertiesDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel6)
-                        .addComponent(filePropertiesCreatedText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(18, 18, 18)
+                .addGroup(filePropertiesDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(filePropertiesNameText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4))
+                .addGap(26, 26, 26)
+                .addGroup(filePropertiesDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(filePropertiesSizeText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(26, 26, 26)
+                .addGroup(filePropertiesDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel6)
+                    .addComponent(filePropertiesCreatedText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(26, 26, 26)
                 .addGroup(filePropertiesDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(filePropertiesModifiedText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel7))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 104, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 54, Short.MAX_VALUE)
                 .addComponent(filePropertiesBtn)
                 .addContainerGap())
         );
@@ -1190,10 +1194,10 @@ public class FileSystemApp extends javax.swing.JFrame {
                 }
                 LocalDateTime creation = file.getCreation();
                 LocalDateTime modification = file.getModification();
-                DateTimeFormatter formatC = DateTimeFormatter.ISO_DATE;
-                DateTimeFormatter formatM = DateTimeFormatter.ISO_DATE;
-                String creationString = creation.format(formatC);
-                String modificationString = modification.format(formatM);
+                //DateTimeFormatter formatC = DateTimeFormatter.ISO_DATE;
+                //DateTimeFormatter formatM = DateTimeFormatter.ISO_DATE;
+                String creationString = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM).format(creation);
+                String modificationString = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM).format(modification);
                 this.filePropertiesDialog.setTitle("Properties of "+file.toString()+optText);
                 this.filePropertiesNameText.setText(file.toString());
                 this.filePropertiesSizeText.setText(Integer.toString(file.getContent().length()));
@@ -1523,6 +1527,10 @@ public class FileSystemApp extends javax.swing.JFrame {
         // TODO add your handling code here:
         this.noSpaceFound.setVisible(false);
     }//GEN-LAST:event_jButton13ActionPerformed
+
+    private void filePropertiesNameTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_filePropertiesNameTextActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_filePropertiesNameTextActionPerformed
 
     /**
      * @param args the command line arguments
