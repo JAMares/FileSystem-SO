@@ -143,6 +143,9 @@ public class FileSystemApp extends javax.swing.JFrame {
         jButton12 = new javax.swing.JButton();
         jScrollPane6 = new javax.swing.JScrollPane();
         fileErrorText = new javax.swing.JTextArea();
+        noSpaceFound = new javax.swing.JDialog();
+        jLabel20 = new javax.swing.JLabel();
+        jButton13 = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTree1 = new javax.swing.JTree();
         jButton1 = new javax.swing.JButton();
@@ -825,6 +828,42 @@ public class FileSystemApp extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        noSpaceFound.setTitle("Space not found.");
+        noSpaceFound.setAlwaysOnTop(true);
+        noSpaceFound.setMinimumSize(new java.awt.Dimension(398, 249));
+
+        jLabel20.setText("Sorry! Virtual disk is full.");
+
+        jButton13.setText("OK");
+        jButton13.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton13ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout noSpaceFoundLayout = new javax.swing.GroupLayout(noSpaceFound.getContentPane());
+        noSpaceFound.getContentPane().setLayout(noSpaceFoundLayout);
+        noSpaceFoundLayout.setHorizontalGroup(
+            noSpaceFoundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, noSpaceFoundLayout.createSequentialGroup()
+                .addContainerGap(163, Short.MAX_VALUE)
+                .addComponent(jButton13)
+                .addGap(163, 163, 163))
+            .addGroup(noSpaceFoundLayout.createSequentialGroup()
+                .addGap(137, 137, 137)
+                .addComponent(jLabel20)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        noSpaceFoundLayout.setVerticalGroup(
+            noSpaceFoundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(noSpaceFoundLayout.createSequentialGroup()
+                .addGap(90, 90, 90)
+                .addComponent(jLabel20)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 68, Short.MAX_VALUE)
+                .addComponent(jButton13)
+                .addGap(53, 53, 53))
+        );
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jTree1.setCellRenderer(new FileSystemTreeRenderer());
@@ -1023,8 +1062,13 @@ public class FileSystemApp extends javax.swing.JFrame {
         this.extentFile = this.fileExtensionInput.getSelectedItem().toString();
         //this.ifDeleted = actualF;
         if(actualF != null){
-            this.disc.addContent(this.fileContentInput.getText(),actualF);
+            boolean added = this.disc.addContent(this.fileContentInput.getText(),actualF);
             this.fileInputDialog.setVisible(false);
+            if(added == false){
+                this.fs.ReMove(actualF.getName(), false);
+                this.noSpaceFound.setVisible(true);
+                return;
+            }
             this.refreshView();            
         } else{
             this.FindDirectory.setVisible(true);
@@ -1452,7 +1496,12 @@ public class FileSystemApp extends javax.swing.JFrame {
             this.disc.deleteFile(forDeleted);
             this.fs.ReMove(this.newDirFile, this.isDir);
             Files actualF = this.fs.createFile(this.fileNameInput.getText(), this.fileExtensionInput.getSelectedItem().toString(), this.fileContentInput.getText());
-            this.disc.addContent(this.fileContentInput.getText(),actualF);
+            boolean added = this.disc.addContent(this.fileContentInput.getText(),actualF);
+            if(added == false){
+                this.fs.ReMove(actualF.getName(), false);
+                System.out.println(this.fs.getFiles());
+                this.noSpaceFound.setVisible(true);
+            }
         }
         this.refreshView();
         this.FindDirectory.setVisible(false);
@@ -1469,6 +1518,11 @@ public class FileSystemApp extends javax.swing.JFrame {
         // TODO add your handling code here:
         this.fileErrorDialog.setVisible(false);
     }//GEN-LAST:event_jButton12ActionPerformed
+
+    private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed
+        // TODO add your handling code here:
+        this.noSpaceFound.setVisible(false);
+    }//GEN-LAST:event_jButton13ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1547,6 +1601,7 @@ public class FileSystemApp extends javax.swing.JFrame {
     private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton11;
     private javax.swing.JButton jButton12;
+    private javax.swing.JButton jButton13;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
@@ -1567,6 +1622,7 @@ public class FileSystemApp extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -1592,6 +1648,7 @@ public class FileSystemApp extends javax.swing.JFrame {
     private javax.swing.JTextField moveCurrentPathText;
     private javax.swing.JDialog moveItemDialog;
     private javax.swing.JTextField moveTargetPathText;
+    private javax.swing.JDialog noSpaceFound;
     private javax.swing.JButton sectorButtonOk;
     private javax.swing.JDialog setVD;
     private javax.swing.JTextField textSectors;

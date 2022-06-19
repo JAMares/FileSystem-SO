@@ -115,7 +115,6 @@ public class VirtualDisc {
     
     //View Virtual disk content
     public void viewContent(){
-        System.out.println("Content: ");
         for(int i = 0; i < this.data.size(); i++){
             System.out.println(this.data.get(i));
         }
@@ -200,11 +199,8 @@ public class VirtualDisc {
 
     //Delete from disk
     public void deleteFile(Files file){
-        System.out.println("Entra");
         String contents = "0".repeat(this.sectorSize);
         ArrayList<Integer> indexes = new ArrayList<>();
-        //indexes = this.map.get(file);
-        System.out.println("FILE " + file.getName() + " " + file.getRoute());
         for (Iterator<Map.Entry<Files, ArrayList<Integer>>> entries = map.entrySet().iterator(); entries.hasNext(); ) {
             Map.Entry<Files, ArrayList<Integer>> entry = entries.next();
             if(entry.getKey().getName() == file.getName() && entry.getKey().getRoute() == file.getRoute()){
@@ -212,7 +208,6 @@ public class VirtualDisc {
                 break;
             }
 	}
-        System.out.println("Toma: " + indexes);
         while(indexes.size() != 0){
             data.set(indexes.get(0), contents);
 
@@ -221,10 +216,9 @@ public class VirtualDisc {
             }
             indexes.remove(0);
         }
-        System.out.println("Sale");
         this.map.remove(file);
-        System.out.println("Remueve");
         this.writeDisk();
     }
+   
     
 }
