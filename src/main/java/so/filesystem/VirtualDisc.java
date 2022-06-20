@@ -69,7 +69,10 @@ public class VirtualDisc {
         ArrayList<Integer> indexes = new ArrayList<>();
 
         if(this.empty >= peerSectors.size()){
-            this.empty = this.empty - peerSectors.size();
+            if(!content.isEmpty()){
+                this.empty = this.empty - peerSectors.size();
+                System.out.println("NO ES VACIO");
+            }
 
             for(int i = 0; i < this.data.size(); i++){
                 if(this.data.get(i).equals(contents)){
@@ -90,7 +93,8 @@ public class VirtualDisc {
                 }
             }
 
-        } else{
+        } 
+        else{
             return false;
         }
         this.map.put(file, indexes);
@@ -145,9 +149,16 @@ public class VirtualDisc {
         String contents = "0".repeat(this.sectorSize);
         ArrayList<Integer> indexes = new ArrayList<>();
         indexes = map.get(file);
-
-        if(peerSectors.size() == indexes.size()){
-            //Insert in actual indexes
+        if(newInsertion.isEmpty()){
+            for(int i = 0; indexes.size() > i; i++){
+                data.set(indexes.get(i), contents);
+            }
+            indexes.clear();
+            this.map.replace(file, indexes);
+            file.setContent(newInsertion);
+        }
+        else if(peerSectors.size() == indexes.size()){
+            //Insert in actual indexes            
             replaceSameSize(peerSectors, indexes, file);
             file.setContent(newInsertion);
         }
@@ -187,6 +198,7 @@ public class VirtualDisc {
                     data.set(indexes.get(i), contents);
                     indexes.remove(i);
                 }
+                this.empty = this.empty - indexes.size();
                 replaceSameSize(peerSectors, indexes, file);
             }
             else{
