@@ -149,8 +149,7 @@ public class Directory {
        if(!files.isEmpty()){
            for(int posFile = 0; posFile < files.size(); posFile++){
                Files file = files.get(posFile);
-               String parse = "*" + file.getExtent();
-               if(file.getName().equals(target) || parse.equals(target)){
+               if(file.toString().contains(target.replace("*", ""))){
                    rutas.add(file.getRoute());
                }
            }
