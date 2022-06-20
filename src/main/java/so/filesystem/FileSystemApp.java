@@ -1171,6 +1171,7 @@ public class FileSystemApp extends javax.swing.JFrame {
             this.refreshView();
         }
         if(this.jList1.getSelectedValue() instanceof Directory dir){
+            this.disc.navigationForDelete(dir);
             this.fs.ReMove(dir.getName(), true);
             this.refreshView();
             

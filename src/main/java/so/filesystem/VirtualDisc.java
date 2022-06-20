@@ -208,6 +208,16 @@ public class VirtualDisc {
         this.writeDisk();
         return true;
     }
+    
+    public void navigationForDelete(Directory dir){
+        for(int i = 0; dir.getFiles().size() > i; i++){
+            this.deleteFile(dir.getFiles().get(i));
+        }
+        for(int i = 0; dir.getDirectories().size() > i; i++){
+            this.navigationForDelete(dir.getDirectories().get(i));
+        }
+        return;
+    }
 
     //Delete from disk
     public void deleteFile(Files file){
