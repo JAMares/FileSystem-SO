@@ -157,7 +157,7 @@ public class Directory {
        if(!directories.isEmpty()){
            for(int posDir = 0; posDir < directories.size(); posDir++){
                Directory dir = directories.get(posDir);
-               if(dir.getName().equals(target)){
+               if(dir.getName().contains(target.replace("*", ""))){
                    rutas.add(route + dir.getName() + "/");
                }
                rutas.addAll(dir.Find(target));
